@@ -1,0 +1,258 @@
+<template>
+	<div class="container mx-auto px-4 py-8 max-w-6xl">
+		<UPageHero title="Design System Review" description="VS Code Dark Theme Design System" />
+
+		<!-- Colors Section -->
+		<UPageSection id="colors" title="Colors" class="mt-12">
+			<div class="space-y-8">
+				<!-- VS Code Theme Colors -->
+				<div>
+					<h3 class="text-lg font-semibold mb-4">VS Code Theme Colors</h3>
+					<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+						<div class="space-y-2">
+							<div class="h-20 rounded" style="background-color: var(--vscode-editor-background)"></div>
+							<p class="text-sm">Editor Background</p>
+							<p class="text-xs text-muted">#1e1e1e</p>
+						</div>
+						<div class="space-y-2">
+							<div class="h-20 rounded border" style="background-color: var(--vscode-input-background)"></div>
+							<p class="text-sm">Input Background</p>
+							<p class="text-xs text-muted">#3c3c3c</p>
+						</div>
+						<div class="space-y-2">
+							<div class="h-20 rounded border" style="background-color: var(--vscode-button-background)"></div>
+							<p class="text-sm">Button Background</p>
+							<p class="text-xs text-muted">#0e639c</p>
+						</div>
+						<div class="space-y-2">
+							<div class="h-20 rounded border" style="background-color: var(--vscode-selection-background)"></div>
+							<p class="text-sm">Selection Background</p>
+							<p class="text-xs text-muted">#264f78</p>
+						</div>
+						<div class="space-y-2">
+							<div class="h-20 rounded border" style="background-color: var(--vscode-border)"></div>
+							<p class="text-sm">Border</p>
+							<p class="text-xs text-muted">#3c3c3c</p>
+						</div>
+						<div class="space-y-2">
+							<div class="h-20 rounded border" style="background-color: var(--vscode-errorForeground)"></div>
+							<p class="text-sm">Error</p>
+							<p class="text-xs text-muted">#f48771</p>
+						</div>
+						<div class="space-y-2">
+							<div class="h-20 rounded border" style="background-color: var(--vscode-warningForeground)"></div>
+							<p class="text-sm">Warning</p>
+							<p class="text-xs text-muted">#cca700</p>
+						</div>
+					</div>
+				</div>
+
+				<!-- Primary Colors -->
+				<div>
+					<h3 class="text-lg font-semibold mb-4">Primary Colors</h3>
+					<div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+						<div v-for="shade in [50, 100, 200, 300, 400, 500, 600, 700, 800, 900]" :key="shade" class="space-y-2">
+							<div class="h-16 rounded" :style="{ backgroundColor: `rgb(var(--color-primary-${shade}))` }"></div>
+							<p class="text-sm">Primary {{ shade }}</p>
+						</div>
+					</div>
+				</div>
+			</div>
+		</UPageSection>
+
+		<!-- Typography Section -->
+		<UPageSection id="typography" title="Typography" class="mt-12">
+			<div class="space-y-6">
+				<div>
+					<h1 class="text-4xl font-bold mb-2">Heading 1</h1>
+					<h2 class="text-3xl font-semibold mb-2">Heading 2</h2>
+					<h3 class="text-2xl font-semibold mb-2">Heading 3</h3>
+					<h4 class="text-xl font-semibold mb-2">Heading 4</h4>
+					<h5 class="text-lg font-semibold mb-2">Heading 5</h5>
+					<h6 class="text-base font-semibold mb-2">Heading 6</h6>
+				</div>
+				<div>
+					<p class="text-base mb-2">Body text - Regular paragraph text for content.</p>
+					<p class="text-sm text-muted mb-2">Small text - Muted text for secondary information.</p>
+					<p class="text-xs text-muted">Extra small text - For captions and labels.</p>
+				</div>
+			</div>
+		</UPageSection>
+
+		<!-- Buttons Section -->
+		<UPageSection id="buttons" title="Buttons" class="mt-12">
+			<div class="space-y-6">
+				<div>
+					<h3 class="text-lg font-semibold mb-4">Button Variants</h3>
+					<div class="flex flex-wrap gap-4">
+						<UButton>Default</UButton>
+						<UButton color="primary">Primary</UButton>
+						<UButton color="gray">Gray</UButton>
+						<UButton variant="outline">Outline</UButton>
+						<UButton variant="ghost">Ghost</UButton>
+						<UButton variant="soft">Soft</UButton>
+					</div>
+				</div>
+				<div>
+					<h3 class="text-lg font-semibold mb-4">Button Sizes</h3>
+					<div class="flex flex-wrap items-center gap-4">
+						<UButton size="xs">Extra Small</UButton>
+						<UButton size="sm">Small</UButton>
+						<UButton size="md">Medium</UButton>
+						<UButton size="lg">Large</UButton>
+						<UButton size="xl">Extra Large</UButton>
+					</div>
+				</div>
+				<div>
+					<h3 class="text-lg font-semibold mb-4">Button States</h3>
+					<div class="flex flex-wrap gap-4">
+						<UButton>Normal</UButton>
+						<UButton disabled>Disabled</UButton>
+						<UButton loading>Loading</UButton>
+					</div>
+				</div>
+			</div>
+		</UPageSection>
+
+		<!-- Forms Section -->
+		<UPageSection id="forms" title="Forms" class="mt-12">
+			<div class="space-y-6">
+				<div>
+					<h3 class="text-lg font-semibold mb-4">Input Fields</h3>
+					<div class="space-y-4 max-w-md">
+						<UInput v-model="formData.text" label="Text Input" placeholder="Enter text" />
+						<UInput v-model="formData.email" type="email" label="Email Input" placeholder="email@example.com" />
+						<UInput v-model="formData.password" type="password" label="Password Input" />
+						<UTextarea v-model="formData.textarea" label="Textarea" placeholder="Enter multiple lines" />
+						<USelect v-model="formData.select" :options="selectOptions" label="Select" placeholder="Choose an option" />
+						<UCheckbox v-model="formData.checkbox" label="Checkbox Option" />
+						<URadioGroup v-model="formData.radio" :options="radioOptions" label="Radio Group" />
+					</div>
+				</div>
+			</div>
+		</UPageSection>
+
+		<!-- Cards Section -->
+		<UPageSection id="cards" title="Cards" class="mt-12">
+			<div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+				<UCard>
+					<template #header>
+						<h3 class="text-lg font-semibold">Card Title</h3>
+					</template>
+					<p>Card content goes here. This is a basic card component with header and content sections.</p>
+					<template #footer>
+						<div class="flex gap-2">
+							<UButton size="sm">Action</UButton>
+							<UButton size="sm" variant="ghost">Cancel</UButton>
+						</div>
+					</template>
+				</UCard>
+				<UCard>
+					<p>Simple card without header or footer. Just content.</p>
+				</UCard>
+			</div>
+		</UPageSection>
+
+		<!-- Alerts Section -->
+		<UPageSection id="alerts" title="Alerts" class="mt-12">
+			<div class="space-y-4 max-w-2xl">
+				<UAlert icon="i-heroicons-information-circle" color="blue" variant="soft" title="Info Alert" description="This is an informational alert message." />
+				<UAlert icon="i-heroicons-check-circle" color="green" variant="soft" title="Success Alert" description="Operation completed successfully." />
+				<UAlert icon="i-heroicons-exclamation-triangle" color="yellow" variant="soft" title="Warning Alert" description="Please review this warning message." />
+				<UAlert icon="i-heroicons-x-circle" color="red" variant="soft" title="Error Alert" description="An error occurred. Please try again." />
+			</div>
+		</UPageSection>
+
+		<!-- Badges Section -->
+		<UPageSection id="badges" title="Badges" class="mt-12">
+			<div class="space-y-4">
+				<div>
+					<h3 class="text-lg font-semibold mb-4">Badge Variants</h3>
+					<div class="flex flex-wrap gap-2">
+						<UBadge>Default</UBadge>
+						<UBadge color="primary">Primary</UBadge>
+						<UBadge color="gray">Gray</UBadge>
+						<UBadge color="green">Green</UBadge>
+						<UBadge color="yellow">Yellow</UBadge>
+						<UBadge color="red">Red</UBadge>
+					</div>
+				</div>
+				<div>
+					<h3 class="text-lg font-semibold mb-4">Badge Variants</h3>
+					<div class="flex flex-wrap gap-2">
+						<UBadge variant="solid">Solid</UBadge>
+						<UBadge variant="outline">Outline</UBadge>
+						<UBadge variant="soft">Soft</UBadge>
+						<UBadge variant="subtle">Subtle</UBadge>
+					</div>
+				</div>
+			</div>
+		</UPageSection>
+
+		<!-- Navigation -->
+		<UPageSection id="navigation" title="Navigation" class="mt-12">
+			<div class="space-y-6">
+				<div>
+					<h3 class="text-lg font-semibold mb-4">Vertical Navigation</h3>
+					<UVerticalNavigation :links="navLinks" />
+				</div>
+			</div>
+		</UPageSection>
+	</div>
+</template>
+
+<script setup>
+const formData = ref({
+	text: '',
+	email: '',
+	password: '',
+	textarea: '',
+	select: null,
+	checkbox: false,
+	radio: 'option1'
+})
+
+const selectOptions = [
+	{ label: 'Option 1', value: 'option1' },
+	{ label: 'Option 2', value: 'option2' },
+	{ label: 'Option 3', value: 'option3' }
+]
+
+const radioOptions = [
+	{ label: 'Option 1', value: 'option1' },
+	{ label: 'Option 2', value: 'option2' },
+	{ label: 'Option 3', value: 'option3' }
+]
+
+const navLinks = [
+	{
+		label: 'Home',
+		icon: 'i-heroicons-home',
+		to: '/'
+	},
+	{
+		label: 'Design System',
+		icon: 'i-heroicons-paint-brush',
+		to: '/design-system'
+	},
+	{
+		label: 'Notes',
+		icon: 'i-heroicons-document-text',
+		to: '/notes'
+	},
+	{
+		label: 'Action Items',
+		icon: 'i-heroicons-check-circle',
+		to: '/action-items'
+	},
+	{
+		label: 'Settings',
+		icon: 'i-heroicons-cog-6-tooth',
+		to: '/settings'
+	}
+]
+
+useHead({
+	title: 'Design System Review'
+})
+</script>
