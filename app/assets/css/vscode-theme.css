@@ -5,89 +5,49 @@ html {
   color-scheme: dark;
 }
 
-/* VS Code Default Dark Theme Colors */
 :root {
-  /* Base Colors */
-  --vscode-editor-background: #1e1e1e;
-  --vscode-editor-foreground: #cccccc;
-  --vscode-panel-background: #1e1e1e;
-  --vscode-panel-border: #3c3c3c;
 
-  
-  /* Input & Form Colors */
-  --vscode-input-background: #3c3c3c;
-  --vscode-input-foreground: #cccccc;
-  --vscode-input-border: #3c3c3c;
-  --vscode-inputOption-activeBorder: #3c3c3c;
-  
-  /* Button Colors */
-  --vscode-button-background: #0e639c;
-  --vscode-button-foreground: #ffffff;
-  --vscode-button-hoverBackground: #1177bb;
-  --vscode-button-secondaryBackground: #3c3c3c;
-  --vscode-button-secondaryForeground: #cccccc;
-  --vscode-button-secondaryHoverBackground: #454545;
-  
-  /* Border & Divider Colors */
-  --vscode-border: #3c3c3c;
-  --vscode-divider: #3c3c3c;
-  
-  /* Selection Colors */
-  --vscode-selection-background: #264f78;
-  --vscode-list-activeSelectionBackground: #094771;
-  --vscode-list-activeSelectionForeground: #ffffff;
-  --vscode-list-hoverBackground: #2a2d2e;
-  --vscode-list-inactiveSelectionBackground: #37373d;
-  
-  /* Text Colors */
-  --vscode-textLink-foreground: #3794ff;
-  --vscode-textLink-activeForeground: #4da6ff;
-  --vscode-textBlockQuote-background: #252526;
-  --vscode-textBlockQuote-border: #3c3c3c;
-  
-  /* Status Colors */
-  --vscode-errorForeground: #f48771;
-  --vscode-warningForeground: #cca700;
-  --vscode-infoForeground: #3794ff;
-  
-  /* Scrollbar Colors */
-  --vscode-scrollbarSlider-background: #424242;
-  --vscode-scrollbarSlider-hoverBackground: #4e4e4e;
-  --vscode-scrollbarSlider-activeBackground: #565656;
-  
-  /* Activity Bar */
-  --vscode-activityBar-background: #333337;
-  --vscode-activityBar-foreground: #cccccc;
-  --vscode-activityBar-activeBorder: #007acc;
-  
-  /* Title Bar */
-  --vscode-titleBar-activeBackground: #3c3c3c;
-  --vscode-titleBar-activeForeground: #cccccc;
-  --vscode-titleBar-inactiveBackground: #2d2d30;
-  --vscode-titleBar-inactiveForeground: #cccccc80;
 }
 
-/* Apply VS Code theme to dark mode */
 .dark {
+	--color-black: #1e1e1e;
+	--color-gray-900: #232323;
+	--color-gray-800: #2c2c2c;
+	--color-gray-700: #323232;
+	--color-gray-600: #383838;
+	--color-gray-500: #3c3c3c;
+	--color-gray-400: #505050;
+	--color-gray-300: #707070;
+	--color-gray-200: #909090;
+	--color-gray-100: #a0a0a0;
+	--color-gray-50: #b0b0b0;
+	--color-white: #cccccc;
+
 	--color-blue-500: #0e639c;
 	--color-blue-600: #264f78;
 	--color-green-500: #1a975f;
 	--color-orange-500: #cca700;
 	--color-red-500: #f48771;
-	--color-gray-500: #3c3c3c;
-	--color-black: #1e1e1e;
-	--color-white: #cccccc;
+
+	--ui-color-black: var(--color-black);
+	--ui-color-gray-900: var(--color-gray-900);
+	--ui-color-gray-800: var(--color-gray-800);
+	--ui-color-gray-700: var(--color-gray-700);
+	--ui-color-gray-600: var(--color-gray-600);
+	--ui-color-gray-500: var(--color-gray-500);
+	--ui-color-gray-400: var(--color-gray-400);
+	--ui-color-gray-300: var(--color-gray-300);
+	--ui-color-gray-200: var(--color-gray-200);
+	--ui-color-gray-100: var(--color-gray-100);
+	--ui-color-gray-50: var(--color-gray-50);
+	--ui-color-white: var(--color-white);
 
 	--ui-color-blue-500: var(--color-blue-500);
 	--ui-color-blue-600: var(--color-blue-600);
 	--ui-color-green-500: var(--color-green-500);
 	--ui-color-orange-500: var(--color-orange-500);
 	--ui-color-red-500: var(--color-red-500);
-	--ui-color-gray-500: var(--color-gray-500);
-	--ui-color-black: var(--color-black);
-	--ui-color-white: var(--color-white);
   --ui-color-neutral-500: var(--color-gray-500);
-
 
 /* NuxtUI 4 Design Token Overrides for VS Code Theme */
 	--ui-primary: var(--color-blue-500);
@@ -99,30 +59,30 @@ html {
 	
   /* Background colors */
   --ui-bg: var(--color-black);
-  --ui-bg-muted: var(--color-gray-900);
-  --ui-bg-elevated: var(--color-gray-500);
-  --ui-bg-accented: var(--color-gray-700);
+  --ui-bg-muted: var(--color-gray-500);
+  --ui-bg-elevated: var(--color-gray-600);
+  --ui-bg-accented: var(--color-gray-500);
   --ui-bg-inverted: var(--color-white);
 
   /* Input background specifically for form controls */
   --ui-bg-input: var(--color-gray-500);
 
   /* Text colors */
-  --ui-text-dimmed: var(--color-gray-400);
-  --ui-text-muted: var(--color-gray-200);
-  --ui-text-toned: var(--color-gray-100);
+  --ui-text-dimmed: var(--color-gray-200);
+  --ui-text-muted: var(--color-gray-100);
+  --ui-text-toned: var(--color-gray-50);
   --ui-text: var(--color-white);
   --ui-text-highlighted: #ffffff;
   --ui-text-inverted: var(--ui-bg);
 
   /* Border colors */
   --ui-border: var(--color-gray-500);
-  --ui-border-muted: var(--vscode-border);
-  --ui-border-accented: var(--vscode-inputOption-activeBorder);
-  --ui-border-inverted: var(--vscode-editor-foreground);
+  --ui-border-muted: var(--color-gray-400);
+  --ui-border-accented: var(--color-gray-300);
+  --ui-border-inverted: var(--color-gray-200);
 
   /* Focus and interaction colors */
-  --ui-ring: var(--vscode-border);
-  --ui-focus: var(--vscode-inputOption-activeBorder);
+  --ui-ring: var(--ui-border-accented);
+  --ui-focus: var(--ui-border-inverted);
 }
 

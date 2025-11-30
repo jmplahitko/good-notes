@@ -1,6 +1,6 @@
 <template>
 	<div class="container mx-auto px-4 py-8 max-w-6xl">
-		<UPageHero title="Design System Review" description="VS Code Dark Theme Design System" />
+		<UPageHero title="Design System Review" description="Dark Theme Design System" />
 
 		<!-- Colors Section -->
 		<UPageSection id="colors" title="Colors" class="">
@@ -56,29 +56,46 @@
 						<p class="text-xs text-muted">#cccccc</p>
 					</div>
 				</div>
+			</div>
+		</UPageSection>
 
-				<h3 class="text-lg font-semibold mb-4">VS Code Theme Colors</h3>
 
+		<UPageSection id="background-colors" title="Background Colors" class="">
+			<div class="space-y-8">
+				<div class="grid grid-cols-2 md:grid-cols-5 gap-4">
+					<div class="flex items-center justify-center h-10 rounded-md border border-default bg-default">
+						<p class="text-sm">Default</p>
+					</div>
+					<div class="flex items-center justify-center h-10 rounded-md border border-default bg-muted">
+						<p class="text-sm">Muted</p>
+					</div>
+					<div class="flex items-center justify-center h-10 rounded-md border border-default bg-elevated">
+						<p class="text-sm">Elevated</p>
+					</div>
+					<div class="flex items-center justify-center h-10 rounded-md border border-default bg-accented">
+						<p class="text-sm">Accented</p>
+					</div>
+					<div class="flex items-center justify-center h-10 rounded-md border border-default bg-inverted">
+						<p class="text-sm text-inverted">Inverted</p>
+					</div>
+				</div>
+			</div>
+		</UPageSection>
+
+		<UPageSection id="border-colors" title="Border Colors" class="">
+			<div class="space-y-8">
 				<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-					<div class="space-y-2">
-						<div class="h-20 rounded" style="background-color: var(--vscode-editor-background)"></div>
-						<p class="text-sm">Editor Background</p>
-						<p class="text-xs text-muted">#1e1e1e</p>
+					<div class="flex items-center justify-center h-10 rounded-md border border-default">
+						<p class="text-sm">Default</p>
 					</div>
-					<div class="space-y-2">
-						<div class="h-20 rounded border" style="background-color: var(--vscode-input-background)"></div>
-						<p class="text-sm">Input Background</p>
-						<p class="text-xs text-muted">#3c3c3c</p>
+					<div class="flex items-center justify-center h-10 rounded-md border border-muted">
+						<p class="text-sm">Muted</p>
 					</div>
-					<div class="space-y-2">
-						<div class="h-20 rounded border" style="background-color: var(--vscode-button-background)"></div>
-						<p class="text-sm">Button Background</p>
-						<p class="text-xs text-muted">#0e639c</p>
+					<div class="flex items-center justify-center h-10 rounded-md border border-accented">
+						<p class="text-sm">Accented</p>
 					</div>
-					<div class="space-y-2">
-						<div class="h-20 rounded border" style="background-color: var(--vscode-selection-background)"></div>
-						<p class="text-sm">Selection Background</p>
-						<p class="text-xs text-muted">#264f78</p>
+					<div class="flex items-center justify-center h-10 rounded-md border border-inverted">
+						<p class="text-sm">Inverted</p>
 					</div>
 				</div>
 			</div>
@@ -98,7 +115,7 @@
 				<div>
 					<p class="text-base mb-2">Body text - Regular paragraph text for content.</p>
 					<p class="text-sm text-muted mb-2">Small text - Muted text for secondary information.</p>
-					<p class="text-xs text-muted">Extra small text - For captions and labels.</p>
+					<p class="text-xs text-toned">Extra small text - For captions and labels.</p>
 				</div>
 			</div>
 		</UPageSection>
