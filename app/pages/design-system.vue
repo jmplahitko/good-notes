@@ -3,65 +3,89 @@
 		<UPageHero title="Design System Review" description="VS Code Dark Theme Design System" />
 
 		<!-- Colors Section -->
-		<UPageSection id="colors" title="Colors" class="mt-12">
+		<UPageSection id="colors" title="Colors" class="">
 			<div class="space-y-8">
-				<!-- VS Code Theme Colors -->
-				<div>
-					<h3 class="text-lg font-semibold mb-4">VS Code Theme Colors</h3>
-					<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
-						<div class="space-y-2">
-							<div class="h-20 rounded" style="background-color: var(--vscode-editor-background)"></div>
-							<p class="text-sm">Editor Background</p>
-							<p class="text-xs text-muted">#1e1e1e</p>
-						</div>
-						<div class="space-y-2">
-							<div class="h-20 rounded border" style="background-color: var(--vscode-input-background)"></div>
-							<p class="text-sm">Input Background</p>
-							<p class="text-xs text-muted">#3c3c3c</p>
-						</div>
-						<div class="space-y-2">
-							<div class="h-20 rounded border" style="background-color: var(--vscode-button-background)"></div>
-							<p class="text-sm">Button Background</p>
-							<p class="text-xs text-muted">#0e639c</p>
-						</div>
-						<div class="space-y-2">
-							<div class="h-20 rounded border" style="background-color: var(--vscode-selection-background)"></div>
-							<p class="text-sm">Selection Background</p>
-							<p class="text-xs text-muted">#264f78</p>
-						</div>
-						<div class="space-y-2">
-							<div class="h-20 rounded border" style="background-color: var(--vscode-border)"></div>
-							<p class="text-sm">Border</p>
-							<p class="text-xs text-muted">#3c3c3c</p>
-						</div>
-						<div class="space-y-2">
-							<div class="h-20 rounded border" style="background-color: var(--vscode-errorForeground)"></div>
-							<p class="text-sm">Error</p>
-							<p class="text-xs text-muted">#f48771</p>
-						</div>
-						<div class="space-y-2">
-							<div class="h-20 rounded border" style="background-color: var(--vscode-warningForeground)"></div>
-							<p class="text-sm">Warning</p>
-							<p class="text-xs text-muted">#cca700</p>
-						</div>
+				<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+					<div class="space-y-2">
+						<div class="h-20 rounded border bg-primary"></div>
+						<p class="text-sm">Primary</p>
+						<p class="text-xs text-muted">#0e639c</p>
+					</div>
+					<div class="space-y-2">
+						<div class="h-20 rounded border bg-secondary"></div>
+						<p class="text-sm">Secondary</p>
+						<p class="text-xs text-muted">#264f78</p>
+					</div>
+				</div>
+				<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+					<div class="space-y-2">
+						<div class="h-20 rounded border bg-info"></div>
+						<p class="text-sm">Info</p>
+						<p class="text-xs text-muted">#264f78</p>
+					</div>
+					<div class="space-y-2">
+						<div class="h-20 rounded border bg-success"></div>
+						<p class="text-sm">Success</p>
+						<p class="text-xs text-muted">#1a975f</p>
+					</div>
+					<div class="space-y-2">
+						<div class="h-20 rounded border bg-warning"></div>
+						<p class="text-sm">Warning</p>
+						<p class="text-xs text-muted">#cca700</p>
+					</div>
+					<div class="space-y-2">
+						<div class="h-20 rounded border bg-error"></div>
+						<p class="text-sm">Error</p>
+						<p class="text-xs text-muted">#f48771</p>
+					</div>
+				</div>
+				<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+					<div class="space-y-2">
+						<div class="h-20 rounded border bg-black"></div>
+						<p class="text-sm">Black</p>
+						<p class="text-xs text-muted">#1e1e1e</p>
+					</div>
+					<div class="space-y-2">
+						<div class="h-20 rounded border bg-gray-500"></div>
+						<p class="text-sm">Gray</p>
+						<p class="text-xs text-muted">#3c3c3c</p>
+					</div>
+					<div class="space-y-2">
+						<div class="h-20 rounded border bg-white"></div>
+						<p class="text-sm">White</p>
+						<p class="text-xs text-muted">#cccccc</p>
 					</div>
 				</div>
 
-				<!-- Primary Colors -->
-				<div>
-					<h3 class="text-lg font-semibold mb-4">Primary Colors</h3>
-					<div class="grid grid-cols-2 md:grid-cols-5 gap-4">
-						<div v-for="shade in [50, 100, 200, 300, 400, 500, 600, 700, 800, 900]" :key="shade" class="space-y-2">
-							<div class="h-16 rounded" :style="{ backgroundColor: `rgb(var(--color-primary-${shade}))` }"></div>
-							<p class="text-sm">Primary {{ shade }}</p>
-						</div>
+				<h3 class="text-lg font-semibold mb-4">VS Code Theme Colors</h3>
+
+				<div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+					<div class="space-y-2">
+						<div class="h-20 rounded" style="background-color: var(--vscode-editor-background)"></div>
+						<p class="text-sm">Editor Background</p>
+						<p class="text-xs text-muted">#1e1e1e</p>
+					</div>
+					<div class="space-y-2">
+						<div class="h-20 rounded border" style="background-color: var(--vscode-input-background)"></div>
+						<p class="text-sm">Input Background</p>
+						<p class="text-xs text-muted">#3c3c3c</p>
+					</div>
+					<div class="space-y-2">
+						<div class="h-20 rounded border" style="background-color: var(--vscode-button-background)"></div>
+						<p class="text-sm">Button Background</p>
+						<p class="text-xs text-muted">#0e639c</p>
+					</div>
+					<div class="space-y-2">
+						<div class="h-20 rounded border" style="background-color: var(--vscode-selection-background)"></div>
+						<p class="text-sm">Selection Background</p>
+						<p class="text-xs text-muted">#264f78</p>
 					</div>
 				</div>
 			</div>
 		</UPageSection>
 
 		<!-- Typography Section -->
-		<UPageSection id="typography" title="Typography" class="mt-12">
+		<UPageSection id="typography" title="Typography" class="">
 			<div class="space-y-6">
 				<div>
 					<h1 class="text-4xl font-bold mb-2">Heading 1</h1>
@@ -80,7 +104,7 @@
 		</UPageSection>
 
 		<!-- Buttons Section -->
-		<UPageSection id="buttons" title="Buttons" class="mt-12">
+		<UPageSection id="buttons" title="Buttons" class="">
 			<div class="space-y-6">
 				<div>
 					<h3 class="text-lg font-semibold mb-4">Button Variants</h3>
@@ -115,19 +139,22 @@
 		</UPageSection>
 
 		<!-- Forms Section -->
-		<UPageSection id="forms" title="Forms" class="mt-12">
-			<div class="space-y-6">
-				<div>
-					<h3 class="text-lg font-semibold mb-4">Input Fields</h3>
-					<div class="space-y-4 max-w-md">
-						<UInput v-model="formData.text" label="Text Input" placeholder="Enter text" />
-						<UInput v-model="formData.email" type="email" label="Email Input" placeholder="email@example.com" />
-						<UInput v-model="formData.password" type="password" label="Password Input" />
-						<UTextarea v-model="formData.textarea" label="Textarea" placeholder="Enter multiple lines" />
-						<USelect v-model="formData.select" :options="selectOptions" label="Select" placeholder="Choose an option" />
-						<UCheckbox v-model="formData.checkbox" label="Checkbox Option" />
-						<URadioGroup v-model="formData.radio" :options="radioOptions" label="Radio Group" />
+		<UPageSection id="forms" title="Forms" class="">
+			<div>
+				<h3 class="text-lg font-semibold mb-4">Input Fields</h3>
+				<div class="flex flex-col space-y-4">
+					<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
+						<UInput variant=" outline" v-model="formData.text" label="Text Input" placeholder="Enter text" />
+						<UInput variant="soft" v-model="formData.text" label="Text Input" placeholder="Enter text" />
+						<UInput variant="subtle" v-model="formData.text" label="Text Input" placeholder="Enter text" />
+						<UInput variant="ghost" v-model="formData.text" label="Text Input" placeholder="Enter text" />
 					</div>
+					<UInput variant="soft" v-model="formData.email" type="email" label="Email Input" placeholder="email@example.com" />
+					<UInput variant="soft" v-model="formData.password" type="password" label="Password Input" />
+					<UTextarea variant="soft" v-model="formData.textarea" label="Textarea" placeholder="Enter multiple lines" />
+					<USelect variant="soft" v-model="formData.select" :items="selectOptions" label="Select" placeholder="Choose an option" />
+					<UCheckbox variant="soft" v-model="formData.checkbox" label="Checkbox Option" />
+					<URadioGroup variant="soft" v-model="formData.radio" :items="radioOptions" label="Radio Group" />
 				</div>
 			</div>
 		</UPageSection>
@@ -190,14 +217,14 @@
 		</UPageSection>
 
 		<!-- Navigation -->
-		<UPageSection id="navigation" title="Navigation" class="mt-12">
+		<!-- <UPageSection id="navigation" title="Navigation" class="mt-12">
 			<div class="space-y-6">
 				<div>
 					<h3 class="text-lg font-semibold mb-4">Vertical Navigation</h3>
 					<UVerticalNavigation :links="navLinks" />
 				</div>
 			</div>
-		</UPageSection>
+		</UPageSection> -->
 	</div>
 </template>
 

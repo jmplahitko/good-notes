@@ -1,23 +1,31 @@
 export default defineAppConfig({
-  ui: {
-    primary: 'blue',
-    gray: 'slate',
-    strategy: 'override',
-    colors: {
-      primary: {
-        50: '#e3f2fd',
-        100: '#bbdefb',
-        200: '#90caf9',
-        300: '#64b5f6',
-        400: '#42a5f5',
-        500: '#2196f3',
-        600: '#1e88e5',
-        700: '#1976d2',
-        800: '#1565c0',
-        900: '#0d47a1',
-        950: '#0a3d7a'
-      }
-    },
-    safelistColors: ['primary', 'gray']
-  }
+	ui: {
+		input: {
+			slots: {
+				base: [
+					'w-full rounded-sm border-0 appearance-none placeholder:text-dimmed focus:outline-none disabled:cursor-not-allowed disabled:opacity-75',
+					'transition-colors'
+				],
+			},
+			variants: {
+				variant: {
+					outline: 'text-highlighted bg-input ring ring-inset ring-accented focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary'
+				}
+			}
+		},
+		textarea: {
+			variants: {
+				variant: {
+					outline: 'text-highlighted bg-input ring ring-inset ring-accented focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary'
+				}
+			}
+		},
+		select: {
+			variants: {
+				variant: {
+					outline: 'text-highlighted bg-input ring ring-inset ring-accented focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary'
+				}
+			}
+		}
+	}
 })

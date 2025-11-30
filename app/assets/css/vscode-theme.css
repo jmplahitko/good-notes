@@ -1,3 +1,10 @@
+
+
+/* Force dark mode as default */
+html {
+  color-scheme: dark;
+}
+
 /* VS Code Default Dark Theme Colors */
 :root {
   /* Base Colors */
@@ -5,12 +12,13 @@
   --vscode-editor-foreground: #cccccc;
   --vscode-panel-background: #1e1e1e;
   --vscode-panel-border: #3c3c3c;
+
   
   /* Input & Form Colors */
-  --vscode-input-background: #252526;
+  --vscode-input-background: #3c3c3c;
   --vscode-input-foreground: #cccccc;
   --vscode-input-border: #3c3c3c;
-  --vscode-inputOption-activeBorder: #007acc;
+  --vscode-inputOption-activeBorder: #3c3c3c;
   
   /* Button Colors */
   --vscode-button-background: #0e639c;
@@ -37,8 +45,6 @@
   --vscode-textBlockQuote-background: #252526;
   --vscode-textBlockQuote-border: #3c3c3c;
   
-  /* Note: Sidebar background color (#252526) is now used for input backgrounds */
-  
   /* Status Colors */
   --vscode-errorForeground: #f48771;
   --vscode-warningForeground: #cca700;
@@ -63,22 +69,60 @@
 
 /* Apply VS Code theme to dark mode */
 .dark {
-  --color-background: var(--vscode-editor-background);
-  --color-foreground: var(--vscode-editor-foreground);
-  --color-muted: var(--vscode-editor-background);
-  --color-muted-foreground: var(--vscode-editor-foreground);
-  --color-border: var(--vscode-border);
-  --color-input: var(--vscode-input-background);
-  --color-ring: var(--vscode-inputOption-activeBorder);
-}
+	--color-blue-500: #0e639c;
+	--color-blue-600: #264f78;
+	--color-green-500: #1a975f;
+	--color-orange-500: #cca700;
+	--color-red-500: #f48771;
+	--color-gray-500: #3c3c3c;
+	--color-black: #1e1e1e;
+	--color-white: #cccccc;
 
-/* Force dark mode as default */
-html {
-  color-scheme: dark;
-}
+	--ui-color-blue-500: var(--color-blue-500);
+	--ui-color-blue-600: var(--color-blue-600);
+	--ui-color-green-500: var(--color-green-500);
+	--ui-color-orange-500: var(--color-orange-500);
+	--ui-color-red-500: var(--color-red-500);
+	--ui-color-gray-500: var(--color-gray-500);
+	--ui-color-black: var(--color-black);
+	--ui-color-white: var(--color-white);
+  --ui-color-neutral-500: var(--color-gray-500);
 
-body {
-  background-color: var(--vscode-editor-background);
-  color: var(--vscode-editor-foreground);
+
+/* NuxtUI 4 Design Token Overrides for VS Code Theme */
+	--ui-primary: var(--color-blue-500);
+	--ui-secondary: var(--color-blue-600);
+	--ui-success: var(--color-green-500);
+	--ui-info: var(--color-blue-600);
+	--ui-warning: var(--color-orange-500);
+	--ui-error: var(--color-red-500);
+	
+  /* Background colors */
+  --ui-bg: var(--color-black);
+  --ui-bg-muted: var(--color-gray-900);
+  --ui-bg-elevated: var(--color-gray-500);
+  --ui-bg-accented: var(--color-gray-700);
+  --ui-bg-inverted: var(--color-white);
+
+  /* Input background specifically for form controls */
+  --ui-bg-input: var(--color-gray-500);
+
+  /* Text colors */
+  --ui-text-dimmed: var(--color-gray-400);
+  --ui-text-muted: var(--color-gray-200);
+  --ui-text-toned: var(--color-gray-100);
+  --ui-text: var(--color-white);
+  --ui-text-highlighted: #ffffff;
+  --ui-text-inverted: var(--ui-bg);
+
+  /* Border colors */
+  --ui-border: var(--color-gray-500);
+  --ui-border-muted: var(--vscode-border);
+  --ui-border-accented: var(--vscode-inputOption-activeBorder);
+  --ui-border-inverted: var(--vscode-editor-foreground);
+
+  /* Focus and interaction colors */
+  --ui-ring: var(--vscode-border);
+  --ui-focus: var(--vscode-inputOption-activeBorder);
 }
 
