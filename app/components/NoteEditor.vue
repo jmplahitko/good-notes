@@ -28,12 +28,14 @@
 			</div>
 			<p v-else class="flex items-center pl-2 text-sm text-dimmed italic">Unlock editor to modify content. →</p>
 			<div class="ml-auto flex items-center gap-1 p-2">
+				<UButton size="xs" variant="ghost" color="neutral" @click="toggleTextSize" :icon="textSize === 'sm' ? 'i-heroicons-magnifying-glass-plus' : 'i-heroicons-magnifying-glass-minus'"
+					:aria-label="`Toggle text size (${textSize === 'sm' ? 'Small' : 'Medium'})`" />
 				<UButton size="xs" variant="ghost" color="neutral" @click="toggleDisabled" :icon="isDisabled ? 'i-heroicons-lock-closed' : 'i-heroicons-lock-open'" aria-label="Toggle Editor Lock" />
 			</div>
 		</div>
 
 		<!-- Editor Content -->
-		<EditorContent :editor="editor" class="mt-4 prose prose-sm max-w-none dark:prose-invert" />
+		<EditorContent :editor="editor" :class="`mt-4 prose prose-${textSize} max-w-none dark:prose-invert`" />
 
 		<!-- Character Count -->
 		<div class="flex items-center justify-end px-3 py-1 text-xs text-muted">
@@ -69,6 +71,9 @@ const emit = defineEmits<{
 
 // Local reactive state for disabled state (can be controlled by prop or local state)
 const isDisabled = ref(props.disabled)
+
+// Text size state
+const textSize = ref('sm') // 'sm' or 'md'
 
 // Watch for prop changes
 watch(() => props.disabled, (newValue) => {
@@ -123,6 +128,11 @@ const toggleDisabled = () => {
 	emit('update:disabled', isDisabled.value)
 }
 
+// Toggle text size
+const toggleTextSize = () => {
+	textSize.value = textSize.value === 'sm' ? 'md' : 'sm'
+}
+
 // Watch for disabled state changes
 watch(isDisabled, (newDisabled, oldDisabled) => {
 	if (editor.value) {
@@ -150,7 +160,7 @@ defineExpose({
 
 /* TipTap Prose Styles */
 .tiptap {
-	@apply w-full rounded-md border-0 appearance-none placeholder:text-dimmed focus:outline-none transition-colors text-toned bg-elevated/15 hover:bg-elevated/25 focus:bg-elevated/25 px-2.5 py-1.5 text-sm gap-1.5;
+	@apply w-full rounded-md border-0 appearance-none placeholder:text-dimmed focus:outline-none transition-colors text-default bg-elevated/15 hover:bg-elevated/25 focus:bg-elevated/25 px-2.5 py-1.5 gap-1.5;
 }
 
 .tiptap[contenteditable="false"] {
@@ -160,6 +170,14 @@ defineExpose({
 
 .prose {
 	color: var(--ui-text);
+}
+
+.prose-sm {
+	@apply text-sm;
+}
+
+.prose-md {
+	@apply text-base;
 }
 
 .prose h1 {
