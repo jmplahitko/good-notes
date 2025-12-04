@@ -26,7 +26,7 @@
 				<UButton size="xs" variant="ghost" color="neutral" @click="editor?.chain().focus().undo().run()" :icon="'i-heroicons-arrow-uturn-left'" aria-label="Undo" :disabled="!editor?.can().undo()" />
 				<UButton size="xs" variant="ghost" color="neutral" @click="editor?.chain().focus().redo().run()" :icon="'i-heroicons-arrow-uturn-right'" aria-label="Redo" :disabled="!editor?.can().redo()" />
 			</div>
-			<p v-else class="flex items-center pl-2 text-sm text-dimmed italic">Unlock editor to modify content.</p>
+			<p v-else class="flex items-center pl-2 text-sm text-dimmed italic">Unlock editor to modify content. →</p>
 			<div class="ml-auto flex items-center gap-1 p-2">
 				<UButton size="xs" variant="ghost" color="neutral" @click="toggleDisabled" :icon="isDisabled ? 'i-heroicons-lock-closed' : 'i-heroicons-lock-open'" aria-label="Toggle Editor Lock" />
 			</div>
@@ -45,6 +45,7 @@
 <script setup lang="ts">
 // @ts-ignore - TipTap types not available during development
 import { Editor, EditorContent } from '@tiptap/vue-3'
+import { nextTick } from 'vue'
 import StarterKit from '@tiptap/starter-kit'
 import Placeholder from '@tiptap/extension-placeholder'
 import CharacterCount from '@tiptap/extension-character-count'
@@ -123,9 +124,15 @@ const toggleDisabled = () => {
 }
 
 // Watch for disabled state changes
-watch(isDisabled, (newDisabled) => {
+watch(isDisabled, (newDisabled, oldDisabled) => {
 	if (editor.value) {
 		editor.value.setEditable(!newDisabled)
+		// Focus editor when unlocking
+		if (oldDisabled && !newDisabled) {
+			nextTick(() => {
+				editor.value?.commands.focus()
+			})
+		}
 	}
 })
 

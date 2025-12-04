@@ -180,13 +180,9 @@
 				<h3 class="text-lg font-semibold mb-4">Rich Text Editor</h3>
 				<div class="max-w-2xl">
 					<NoteEditor v-model="richTextContent" v-model:disabled="rteDisabled" placeholder="Start writing your note..." />
-					<div class="mt-4 p-3 bg-accented rounded text-sm">
+					<div class="mt-4 p-3 text-sm">
 						<strong>HTML Output:</strong><br>
-						<code class="text-xs">{{ richTextContent }}</code>
-					</div>
-					<div class="mt-4 p-3 rounded text-sm">
-						<strong>HTML Output:</strong><br>
-						<p v-html="richTextContent"></p>
+						<pre class="html-output"><code>{{ prettyPrintHtml(richTextContent) }}</code></pre>
 					</div>
 				</div>
 			</div>
@@ -262,6 +258,8 @@
 </template>
 
 <script setup>
+import { html_beautify } from 'js-beautify'
+
 const rteDisabled = ref(false)
 const formData = ref({
 	text: '',
@@ -274,6 +272,14 @@ const formData = ref({
 })
 
 const richTextContent = ref('')
+
+// Pretty print HTML for better readability (compact version)
+const prettyPrintHtml = (html) => {
+	if (!html) return ''
+
+	// Compact HTML formatting with minimal indentation
+	return html_beautify(html)
+}
 
 const selectOptions = [
 	{ label: 'Option 1', value: 'option1' },
@@ -318,4 +324,28 @@ const navLinks = [
 useHead({
 	title: 'Design System Review'
 })
+</script>
+
+<style scoped>
+.html-output {
+	font-family: 'Monaco', 'Menlo', 'Ubuntu Mono', monospace;
+	font-size: 0.75rem;
+	line-height: 1.5;
+	background: rgba(0, 0, 0, 0.3);
+	border-radius: 0.25rem;
+	padding: 0.75rem;
+	margin-top: 0.5rem;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	word-break: break-word;
+}
+
+.html-output code {
+	display: block;
+	color: var(--ui-text);
+	background: transparent;
+}
+</style>
+
+<script setup>
 </script>

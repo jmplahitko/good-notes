@@ -20,6 +20,7 @@
 		"@tiptap/pm": "^2.27.1",
 		"@tiptap/starter-kit": "^2.27.1",
 		"@tiptap/vue-3": "^2.27.1",
+		"js-beautify": "^1.15.4",
 		"nuxt": "^4.2.1"
 	},
 	"devDependencies": {
