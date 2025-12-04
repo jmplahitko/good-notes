@@ -178,11 +178,11 @@
 			<!-- Rich Text Editor Demo -->
 			<div class="mt-8">
 				<h3 class="text-lg font-semibold mb-4">Rich Text Editor</h3>
-				<div class="max-w-2xl">
+				<div class="grid gap-4 grid-cols-2">
 					<NoteEditor v-model="richTextContent" v-model:disabled="rteDisabled" placeholder="Start writing your note..." />
 					<div class="mt-4 p-3 text-sm">
 						<strong>HTML Output:</strong><br>
-						<pre class="html-output"><code>{{ prettyPrintHtml(richTextContent) }}</code></pre>
+						<pre class="html-output min-h-[200px]"><code>{{ prettyPrintHtml(richTextContent) }}</code></pre>
 					</div>
 				</div>
 			</div>
