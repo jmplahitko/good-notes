@@ -161,7 +161,7 @@
 				<h3 class="text-lg font-semibold mb-4">Input Fields</h3>
 				<div class="flex flex-col space-y-4">
 					<div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-4 gap-4">
-						<UInput variant=" outline" v-model="formData.text" label="Text Input" placeholder="Enter text" />
+						<UInput variant="outline" v-model="formData.text" label="Text Input" placeholder="Enter text" />
 						<UInput variant="soft" v-model="formData.text" label="Text Input" placeholder="Enter text" />
 						<UInput variant="subtle" v-model="formData.text" label="Text Input" placeholder="Enter text" />
 						<UInput variant="ghost" v-model="formData.text" label="Text Input" placeholder="Enter text" />
@@ -172,6 +172,22 @@
 					<USelect variant="soft" v-model="formData.select" :items="selectOptions" label="Select" placeholder="Choose an option" />
 					<UCheckbox variant="soft" v-model="formData.checkbox" label="Checkbox Option" />
 					<URadioGroup variant="soft" v-model="formData.radio" :items="radioOptions" label="Radio Group" />
+				</div>
+			</div>
+
+			<!-- Rich Text Editor Demo -->
+			<div class="mt-8">
+				<h3 class="text-lg font-semibold mb-4">Rich Text Editor</h3>
+				<div class="max-w-2xl">
+					<NoteEditor v-model="richTextContent" v-model:disabled="rteDisabled" placeholder="Start writing your note..." />
+					<div class="mt-4 p-3 bg-accented rounded text-sm">
+						<strong>HTML Output:</strong><br>
+						<code class="text-xs">{{ richTextContent }}</code>
+					</div>
+					<div class="mt-4 p-3 rounded text-sm">
+						<strong>HTML Output:</strong><br>
+						<p v-html="richTextContent"></p>
+					</div>
 				</div>
 			</div>
 		</UPageSection>
@@ -246,6 +262,7 @@
 </template>
 
 <script setup>
+const rteDisabled = ref(false)
 const formData = ref({
 	text: '',
 	email: '',
@@ -255,6 +272,8 @@ const formData = ref({
 	checkbox: false,
 	radio: 'option1'
 })
+
+const richTextContent = ref('')
 
 const selectOptions = [
 	{ label: 'Option 1', value: 'option1' },

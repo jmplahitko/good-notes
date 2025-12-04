@@ -1,29 +1,24 @@
 export default defineAppConfig({
 	ui: {
 		input: {
-			slots: {
-				base: [
-					'w-full rounded-sm border-0 appearance-none placeholder:text-dimmed focus:outline-none disabled:cursor-not-allowed disabled:opacity-75',
-					'transition-colors'
-				],
-			},
 			variants: {
 				variant: {
-					outline: 'text-highlighted bg-input ring ring-inset ring-accented focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary'
+					soft: 'text-highlighted bg-elevated/15 hover:bg-elevated/25 focus:bg-elevated/25 disabled:bg-elevated/50',
+					outline: 'bg-input text-highlighted ring ring-inset ring-accented focus:ring-2 focus:ring-inset focus:ring-primary'
 				}
 			}
 		},
 		textarea: {
 			variants: {
 				variant: {
-					outline: 'text-highlighted bg-input ring ring-inset ring-accented focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary'
+					outline: 'bg-input text-highlighted ring ring-inset ring-accented focus:ring-2 focus:ring-inset focus:ring-primary'
 				}
 			}
 		},
 		select: {
 			variants: {
 				variant: {
-					outline: 'text-highlighted bg-input ring ring-inset ring-accented focus-visible:ring-2 focus-visible:ring-inset focus-visible:ring-primary'
+					outline: 'bg-input text-highlighted ring ring-inset ring-accented focus:ring-2 focus:ring-inset focus:ring-primary'
 				}
 			}
 		}

@@ -1,26 +1,32 @@
 {
-  "name": "good-notes",
-  "private": true,
-  "type": "module",
-  "scripts": {
-    "build": "nuxt build",
-    "dev": "nuxt dev",
-    "preview": "nuxt preview",
-    "postinstall": "nuxt prepare",
-    "lint": "eslint .",
-    "typecheck": "nuxt typecheck"
-  },
-  "dependencies": {
-    "@iconify-json/lucide": "^1.2.73",
-    "@iconify-json/simple-icons": "^1.2.58",
-    "@nuxt/ui": "^4.1.0",
-    "nuxt": "^4.2.1"
-  },
-  "devDependencies": {
-    "@nuxt/eslint": "^1.10.0",
-    "eslint": "^9.39.1",
-    "typescript": "^5.9.3",
-    "vue-tsc": "^3.1.3"
-  },
-  "packageManager": "pnpm@10.21.0"
+	"name": "good-notes",
+	"private": true,
+	"type": "module",
+	"scripts": {
+		"build": "nuxt build",
+		"dev": "nuxt dev",
+		"preview": "nuxt preview",
+		"postinstall": "nuxt prepare",
+		"lint": "eslint .",
+		"typecheck": "nuxt typecheck"
+	},
+	"dependencies": {
+		"@iconify-json/lucide": "^1.2.73",
+		"@iconify-json/simple-icons": "^1.2.58",
+		"@nuxt/icon": "^1.15.0",
+		"@nuxt/ui": "^4.1.0",
+		"@tiptap/extension-character-count": "^2.27.1",
+		"@tiptap/extension-placeholder": "^2.27.1",
+		"@tiptap/pm": "^2.27.1",
+		"@tiptap/starter-kit": "^2.27.1",
+		"@tiptap/vue-3": "^2.27.1",
+		"nuxt": "^4.2.1"
+	},
+	"devDependencies": {
+		"@nuxt/eslint": "^1.10.0",
+		"eslint": "^9.39.1",
+		"typescript": "^5.9.3",
+		"vue-tsc": "^3.1.3"
+	},
+	"packageManager": "pnpm@10.21.0"
 }

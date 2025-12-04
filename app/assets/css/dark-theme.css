@@ -5,9 +5,6 @@ html {
   color-scheme: dark;
 }
 
-:root {
-
-}
 
 .dark {
 	--color-black: #1e1e1e;
@@ -63,9 +60,6 @@ html {
   --ui-bg-elevated: var(--color-gray-600);
   --ui-bg-accented: var(--color-gray-500);
   --ui-bg-inverted: var(--color-white);
-
-  /* Input background specifically for form controls */
-  --ui-bg-input: var(--color-gray-500);
 
   /* Text colors */
   --ui-text-dimmed: var(--color-gray-200);
