@@ -27,10 +27,11 @@ Transform the existing Nuxt starter template into an Electron desktop applicatio
 - `backend/api/action_items.py` - Action item CRUD endpoints (single JSON file)
 - `backend/api/search.py` - Elasticsearch search endpoint
 - `backend/services/file_system.py` - File system operations
-- `backend/services/notes_manager.py` - Note CRUD: JSON -> Markdown conversion (title->h1, content->markdown, metadata->frontmatter)
+- `backend/services/notes_manager.py` - Note CRUD: JSON -> Markdown conversion (title->h1, attendees->optional "Attendees" h2 section, content->markdown, metadata->frontmatter)
 - `backend/services/action_items_manager.py` - Action item CRUD (single JSON file storage)
 - `backend/services/settings_manager.py` - Settings CRUD (JSON format)
 - `backend/services/markdown_converter.py` - Convert note JSON to markdown and parse markdown back to JSON
+- `backend/services/file_naming.py` - Generate filenames from note title and meeting start time (slugify + time formatting)
 - `backend/services/elasticsearch_service.py` - Elasticsearch client setup and indexing
 - `backend/models/note.py` - Note Pydantic models (JSON format)
 - `backend/models/action_item.py` - ActionItem Pydantic models (JSON format)
@@ -83,8 +84,9 @@ Transform the existing Nuxt starter template into an Electron desktop applicatio
 - `app/components/ActionItemList.vue` - Action items list component
 - `app/components/ActionItemCard.vue` - Action item card for display
 - `app/components/SearchBar.vue` - Search interface (emits search events)
-- `app/components/CreateNoteForm.vue` - Create note form (emits submit events)
+- `app/components/CreateNoteForm.vue` - Create note form (emits submit events, includes attendees input field)
 - `app/components/NoteEditor.vue` - Note editor component (emits save events)
+- `app/components/AttendeesInput.vue` - Attendees input component (plain text list input, emits update events)
 - `app/components/ActionItemForm.vue` - Action item form (emits submit events)
 - `app/components/SettingsForm.vue` - Settings form (emits submit events)
 
@@ -98,7 +100,7 @@ Transform the existing Nuxt starter template into an Electron desktop applicatio
 - Update `app/assets/css/main.css` - Import VS Code theme and apply styles
 
 ### Models & Types
-- Update `model/Note.ts` - Ensure compatibility with JSON API and markdown storage
+- Update `model/Note.ts` - Add optional `attendees?: string[]` and `meetingStartTime?: Date` fields, ensure compatibility with JSON API and markdown storage
 - Update `model/ActionItem.ts` - Ensure compatibility with JSON API
 - `model/SearchResult.ts` - Search result types
 
@@ -120,10 +122,12 @@ Transform the existing Nuxt starter template into an Electron desktop applicatio
    - Set up virtual environment and requirements.txt
    - Create main FastAPI app with CORS configuration for Electron
    - Implement markdown converter service:
-     - Convert note JSON to markdown: title -> h1 heading, content -> markdown format
-     - Add file metadata (id, dates, etc.) to frontmatter
-     - Parse markdown files back to JSON (extract frontmatter, convert markdown to content)
-   - Create notes directory structure (e.g., `~/Documents/GoodNotes/notes/`)
+     - Convert note JSON to markdown: title -> h1 heading, attendees -> optional "Attendees" h2 section (if present, placed after title and before content), content -> markdown format
+     - Add file metadata (id, dates, meetingStartTime if present, etc.) to frontmatter
+     - Parse markdown files back to JSON (extract frontmatter including meetingStartTime, parse "Attendees" h2 section if present, convert markdown to content)
+   - Create notes directory structure: `~/Documents/GoodNotes/notes/YYYYMMDD/` (subdirectories by day based on createdAt date)
+   - Implement file naming: slugified title + optional meeting start time (HHMM format) + `.md` extension
+   - Handle pending note state: notes exist in memory/UI before save, createdAt is set when note is first saved
    - Set up action items JSON file storage (single file for all action items)
 
 3. **Elasticsearch Integration (Python)**
@@ -135,10 +139,13 @@ Transform the existing Nuxt starter template into an Electron desktop applicatio
 
 4. **Python API Endpoints**
    - Implement note CRUD endpoints (GET, POST, PUT, DELETE):
-     - Receive note JSON data
-     - Convert to markdown format (title -> h1, content -> markdown, metadata -> frontmatter)
-     - Write/read .md files
-     - Return note JSON data
+     - Receive note JSON data (including optional attendees array and meetingStartTime)
+     - Set createdAt timestamp when note is first saved (POST), update updatedAt on modifications (PUT)
+     - Generate filename: slugified title + optional meeting start time (HHMM format) + `.md`
+     - Create/use directory structure: `notes/YYYYMMDD/` based on createdAt date
+     - Convert to markdown format (title -> h1, attendees -> optional "Attendees" h2 section, content -> markdown, metadata -> frontmatter)
+     - Write/read .md files in appropriate date directory
+     - Return note JSON data (including parsed attendees and meetingStartTime if present in markdown)
    - Implement action item CRUD endpoints:
      - Read/write from single JSON file
      - Handle concurrent updates safely
@@ -156,9 +163,10 @@ Transform the existing Nuxt starter template into an Electron desktop applicatio
 6. **Frontend Store Composables**
    - Create store composables with reactive state (ref/reactive):
      - `useNotesStore`: 
-       - Reactive state: `notes`, `currentNote`, `loading`, `error`
-       - Actions: `createNote(data)`, `updateNote(id, data)`, `deleteNote(id)`, `fetchNotes()`, `fetchNoteById(id)`
-       - Actions send data to backend, backend returns updated state, store overwrites cache
+       - Reactive state: `notes`, `currentNote`, `pendingNotes` (unsaved notes in memory), `loading`, `error`
+       - Actions: `createNote(data)` (sets createdAt on backend), `updateNote(id, data)`, `deleteNote(id)`, `fetchNotes()`, `fetchNoteById(id)`
+       - Actions send data to backend, backend returns updated state (with createdAt/updatedAt timestamps), store overwrites cache
+       - Pending notes exist in memory until saved, then moved to main notes array
      - `useActionItemsStore`: Same pattern with action items
      - `useSearchStore`: Cache search results
      - `useSettingsStore`: Cache settings with update action
@@ -191,7 +199,10 @@ Transform the existing Nuxt starter template into an Electron desktop applicatio
    - Note detail page (`notes/[id].vue`): 
      - Consume `currentNote` from store
      - Call `notesStore.updateNote()` on save
-   - Create note page (`notes/create.vue`): Call `notesStore.createNote()` on submit
+   - Create note page (`notes/create.vue`): 
+     - Manage pending note state (note exists in memory before save)
+     - Call `notesStore.createNote()` on submit (sets createdAt timestamp on backend)
+     - Handle pending note updates before save
    - Action items index page (`action-items/index.vue`): Search bar, action items list
    - Action item detail page (`action-items/[id].vue`): 
      - Call `actionItemsStore.updateActionItem()` or `completeActionItem()` on save
@@ -202,7 +213,7 @@ Transform the existing Nuxt starter template into an Electron desktop applicatio
     - Create reusable presentation components:
       - NoteList, NoteCard for displaying notes
       - ActionItemList, ActionItemCard for displaying action items
-      - SearchBar, CreateNoteForm, NoteEditor, ActionItemForm, SettingsForm
+      - SearchBar, CreateNoteForm, NoteEditor, AttendeesInput, ActionItemForm, SettingsForm
     - Components receive data via props (from stores)
     - Components emit events for user actions (e.g., `@submit`, `@save`, `@delete`)
     - Parent pages handle events by calling store actions
@@ -270,10 +281,14 @@ Transform the existing Nuxt starter template into an Electron desktop applicatio
 5. Pages/Components → Automatically react to store state changes via Vue reactivity
 
 ### Storage Format
-- **Notes**: Saved as markdown files (.md)
+- **Notes**: Saved as markdown files (.md) in date-organized directories
+  - Directory structure: `notes/YYYYMMDD/` (based on createdAt date)
+  - Filename: slugified title + optional meeting start time (HHMM format) + `.md` extension
   - `note.title` → h1 heading
+  - `note.attendees` → optional "Attendees" h2 section (if present, placed after title and before content)
   - `note.content` → converted to markdown format
   - File metadata added to .md file using frontmatter
+  - Notes exist in pending state (memory/UI) before first save, createdAt is set when note is saved
 - **Action Items**: Saved in a single JSON file
 - **Settings**: Saved in JSON format
 - **File Indexes**: Saved in JSON format (for referencing entities)
