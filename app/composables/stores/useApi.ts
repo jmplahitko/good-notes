@@ -47,13 +47,12 @@ export const useNotesApi = () => {
 
 		// Mock response with generated ID and timestamps
 		const createdNote: Note = {
-			id: `note-${Date.now()}`,
+			id: `${Date.now()}`,
 			title: noteData.title || '',
 			attendees: noteData.attendees || [],
 			meetingStartTime: noteData.meetingStartTime,
 			content: noteData.content || '',
 			createdAt: new Date(),
-			updatedAt: new Date(),
 			actionItems: noteData.actionItems || []
 		}
 

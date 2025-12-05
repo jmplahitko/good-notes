@@ -7,6 +7,6 @@ export interface Note {
 	meetingStartTime?: Date;
 	content: string;
 	createdAt: Date;
-	updatedAt: Date;
+	updatedAt?: Date;
 	actionItems: ActionItem[];
 }
