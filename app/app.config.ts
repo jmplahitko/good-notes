@@ -3,6 +3,12 @@ export default defineAppConfig({
 		container: {
 			base: 'w-full max-w-(--ui-container) mx-auto px-4 py-8'
 		},
+		header: {
+			slots: {
+				container: 'w-full max-w-(--ui-container) mx-auto p-0',
+				title: 'text-md text-defaultfont-bold',
+			}
+		},
 		input: {
 			slots: {
 				root: 'w-full',

@@ -30,11 +30,7 @@ useSeoMeta({
 
 <template>
 	<UApp>
-		<UHeader>
-			<template #left>
-				Good Notes
-			</template>
-
+		<UHeader title="Good Notes">
 			<template #right>
 				<UButton to="/design-system" icon="i-heroicons-paint-brush" aria-label="Design System" color="neutral" variant="ghost" />
 			</template>
