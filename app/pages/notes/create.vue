@@ -21,12 +21,17 @@
 					<UButton variant="ghost" @click="cancel">Cancel</UButton>
 					<UButton @click="saveNote" :disabled="!canSave">Save Note</UButton>
 				</div>
+				<!-- <pre><code>{{ JSON.stringify(pendingNote, null, 2) }}</code></pre> -->
 			</div>
-			<div>
-				<label class="text-sm font-semibold mb-2">Action Items</label>
-				<ActionItemsInput v-model="pendingNote.actionItems" @update:model-value="updatePendingNote" />
-				<label class="text-sm font-semibold mb-2">Attendees</label>
-				<AttendeesInput v-model="pendingNote.attendees" @update:model-value="updatePendingNote" />
+			<div class="flex flex-col gap-4">
+				<div class="flex flex-col">
+					<label class="text-sm font-semibold mb-2 block">Action Items</label>
+					<ActionItemsInput v-model="pendingNote.actionItems" @update:model-value="updatePendingNote" />
+				</div>
+				<div class="flex flex-col">
+					<label class="text-sm font-semibold mb-2 block">Attendees</label>
+					<AttendeesInput v-model="pendingNote.attendees" @update:model-value="updatePendingNote" />
+				</div>
 			</div>
 		</div>
 	</UContainer>

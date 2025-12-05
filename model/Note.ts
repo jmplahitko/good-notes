@@ -1,3 +1,5 @@
+import type { ActionItem } from './ActionItem'
+
 export interface Note {
 	id: string;
 	title: string;
@@ -6,5 +8,5 @@ export interface Note {
 	content: string;
 	createdAt: Date;
 	updatedAt: Date;
-	actionItems: string[];
+	actionItems: ActionItem[];
 }

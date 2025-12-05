@@ -1,8 +1,9 @@
 export interface ActionItem {
-	id: string;
+	id?: string;
 	title: string;
-	createdAt: Date;
-	updatedAt: Date;
-	completedAt: Date | null;
-	noteId: string;
+	createdAt?: Date;
+	updatedAt?: Date;
+	completedAt?: Date | null;
+	noteId?: string;
+	completed?: boolean;
 }
