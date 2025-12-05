@@ -1,6 +1,12 @@
 export default defineAppConfig({
 	ui: {
+		container: {
+			base: 'w-full max-w-(--ui-container) mx-auto px-4 py-8'
+		},
 		input: {
+			slots: {
+				root: 'w-full',
+			},
 			variants: {
 				variant: {
 					soft: 'text-default bg-elevated/15 hover:bg-elevated/25 focus:bg-elevated/25 disabled:bg-default',
@@ -10,6 +16,9 @@ export default defineAppConfig({
 			}
 		},
 		textarea: {
+			slots: {
+				root: 'w-full',
+			},
 			variants: {
 				variant: {
 					soft: 'text-default bg-elevated/15 hover:bg-elevated/25 focus:bg-elevated/25 disabled:bg-default',
@@ -19,6 +28,9 @@ export default defineAppConfig({
 			}
 		},
 		select: {
+			slots: {
+				base: 'w-full',
+			},
 			variants: {
 				variant: {
 					soft: 'text-default bg-elevated/15 hover:bg-elevated/25 focus:bg-elevated/25 disabled:bg-default',

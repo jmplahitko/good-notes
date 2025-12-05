@@ -1,0 +1,111 @@
+<template>
+	<UContainer>
+		<!-- Title and Meeting Time Row -->
+		<div class="flex gap-4 items-center">
+			<div class="flex-5">
+				<UInput v-model="pendingNote.title" variant="ghost" size="xl" label="Note Title" placeholder="Enter note title..." @update:model-value="updatePendingNote" />
+			</div>
+			<div class="flex-1">
+				<UInput v-model="meetingTimeString" variant="ghost" type="time" label="Meeting Start Time" placeholder="HH:MM" @update:model-value="updateMeetingTime" />
+			</div>
+		</div>
+
+		<USeparator class="my-4" />
+
+		<div class="grid grid-cols-3 gap-4">
+			<div class="col-span-2">
+				<NoteEditor v-model="pendingNote.content" placeholder="Start writing your note..." @update:model-value="updatePendingNote" />
+
+				<!-- Save Button -->
+				<div class="flex justify-end gap-2 mt-4">
+					<UButton variant="ghost" @click="cancel">Cancel</UButton>
+					<UButton @click="saveNote" :disabled="!canSave">Save Note</UButton>
+				</div>
+			</div>
+			<div>
+				<label class="text-sm font-semibold mb-2">Action Items</label>
+				<ActionItemsInput v-model="pendingNote.actionItems" @update:model-value="updatePendingNote" />
+				<label class="text-sm font-semibold mb-2">Attendees</label>
+				<AttendeesInput v-model="pendingNote.attendees" @update:model-value="updatePendingNote" />
+			</div>
+		</div>
+	</UContainer>
+</template>
+
+<script setup lang="ts">
+import type { Note } from '../../../model/Note'
+
+// Pending note state (exists in memory before save)
+const pendingNote = ref<Partial<Note>>({
+	title: '',
+	content: '',
+	actionItems: [],
+	attendees: []
+})
+
+// Meeting time as string for time input
+const meetingTimeString = ref('')
+
+// Computed to check if note can be saved
+const canSave = computed(() => {
+	return pendingNote.value.title && pendingNote.value.title.trim().length > 0
+})
+
+// Update meeting time
+const updateMeetingTime = (value: string) => {
+	if (value) {
+		const [hours, minutes] = value.split(':')
+		const date = new Date()
+		if (hours && minutes) {
+			date.setHours(parseInt(hours, 10))
+			date.setMinutes(parseInt(minutes, 10))
+			date.setSeconds(0)
+			date.setMilliseconds(0)
+			pendingNote.value.meetingStartTime = date
+		}
+	} else {
+		pendingNote.value.meetingStartTime = undefined
+	}
+	updatePendingNote()
+}
+
+// Update pending note (for reactivity)
+const updatePendingNote = () => {
+	// This ensures reactivity is maintained
+	// In a real implementation, this would update the store's pending note
+}
+
+// Save note
+const saveNote = async () => {
+	if (!canSave.value) return
+
+	// TODO: Call store action to save note
+	// await notesStore.createNote(pendingNote.value)
+
+	// For now, just log
+	console.log('Saving note:', pendingNote.value)
+
+	// Navigate back or to note detail page
+	// await navigateTo(`/notes/${noteId}`)
+}
+
+// Cancel
+const cancel = () => {
+	// TODO: Clear pending note from store
+	// Clear local state
+	pendingNote.value = {
+		title: '',
+		content: '',
+		actionItems: [],
+		attendees: []
+	}
+	meetingTimeString.value = ''
+
+	// Navigate back
+	navigateTo('/notes')
+}
+
+useHead({
+	title: 'Create Note'
+})
+</script>
