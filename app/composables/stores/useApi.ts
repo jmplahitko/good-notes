@@ -30,6 +30,9 @@ export const useApi = () => {
 	}
 }
 
+
+const mockNotes: { [key: string]: Note } = {}
+
 // Note API endpoints
 export const useNotesApi = () => {
 	const { apiClient } = useApi()
@@ -54,6 +57,8 @@ export const useNotesApi = () => {
 			actionItems: noteData.actionItems || []
 		}
 
+		mockNotes[createdNote.id] = createdNote;
+
 		return createdNote
 	}
 
@@ -66,7 +71,8 @@ export const useNotesApi = () => {
 	const getNote = async (id: string): Promise<Note> => {
 		// TODO: Implement when backend is ready
 		console.log('Getting note:', id)
-		throw new Error('Not implemented yet')
+		return mockNotes[id]
+			|| (() => { throw new Error('Note not found') })()
 	}
 
 	const getNotes = async (): Promise<Note[]> => {

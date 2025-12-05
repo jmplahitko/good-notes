@@ -10,7 +10,10 @@ export const useNotesStore = () => {
 	const error = ref<string | null>(null)
 
 	// API client
-	const { createNote: apiCreateNote } = useNotesApi()
+	const {
+		createNote: apiCreateNote,
+		getNote: apiGetNote
+	} = useNotesApi()
 
 	// Actions
 	const createNote = async (noteData: Partial<Note>): Promise<Note> => {
@@ -75,10 +78,8 @@ export const useNotesStore = () => {
 
 		try {
 			// TODO: Call backend API when implemented
-			// const note = await apiGetNote(id)
+			const note = await apiGetNote(id)
 
-			// For now, find in local state
-			const note = notes.value.find(n => n.id === id)
 			if (!note) {
 				throw new Error('Note not found')
 			}
