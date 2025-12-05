@@ -4,7 +4,7 @@
 
 			<!-- Search Section -->
 			<div class="max-w-2xl mx-auto">
-				<UInput v-model="searchQuery" variant="outline" size="lg" label="Search Notes" placeholder="Search by title, content, or attendees..." icon="i-heroicons-magnifying-glass"
+				<UInput v-model="searchQuery" variant="subtle" size="lg" label="Search Notes" placeholder="Search by title, content, or attendees..." icon="i-heroicons-magnifying-glass"
 					@update:model-value="performSearch" />
 			</div>
 
@@ -53,7 +53,7 @@
 
 							<!-- Action Items -->
 							<div v-if="note.actionItems && note.actionItems.length > 0" class="flex items-center gap-2">
-								<UIcon name="i-heroicons-check-circle" class="h-4 w-4" />
+								<UIcon :name="getActionItemsIcon(note.actionItems).icon" class="h-4 w-4" :class="getActionItemsIcon(note.actionItems).color" />
 								<span>{{ completedActionItems(note.actionItems) }} of {{ note.actionItems.length }} action items completed</span>
 							</div>
 						</div>
@@ -95,7 +95,7 @@ const mockNotes: Note[] = [
 		attendees: ['Alice Johnson', 'Bob Smith', 'Carol Davis', 'David Wilson'],
 		actionItems: [
 			{ title: 'Fix mobile responsiveness', completed: false },
-			{ title: 'Update API documentation', completed: true },
+			{ title: 'Update API documentation', completed: false },
 			{ title: 'Review pull requests', completed: false }
 		]
 	},
@@ -110,7 +110,7 @@ const mockNotes: Note[] = [
 		actionItems: [
 			{ title: 'Create presentation slides', completed: true },
 			{ title: 'Gather Q4 metrics', completed: true },
-			{ title: 'Schedule follow-up meeting', completed: false }
+			{ title: 'Schedule follow-up meeting', completed: true }
 		]
 	},
 	{
@@ -122,7 +122,7 @@ const mockNotes: Note[] = [
 		meetingStartTime: new Date('2024-11-25T11:15:00'),
 		attendees: ['Bob Smith', 'David Wilson', 'Frank Garcia'],
 		actionItems: [
-			{ title: 'Implement security fixes', completed: false },
+			{ title: 'Implement security fixes', completed: true },
 			{ title: 'Add performance optimizations', completed: false },
 			{ title: 'Update code documentation', completed: true }
 		]
@@ -151,8 +151,8 @@ const mockNotes: Note[] = [
 		attendees: ['Bob Smith', 'David Wilson'],
 		actionItems: [
 			{ title: 'Fix critical security bug', completed: true },
-			{ title: 'Update bug tracking system', completed: false },
-			{ title: 'Review remaining bug reports', completed: false }
+			{ title: 'Update bug tracking system', completed: true },
+			{ title: 'Review remaining bug reports', completed: true }
 		]
 	}
 ]
@@ -203,6 +203,34 @@ const highlightText = (text: string, searchTerm: string) => {
 // Count completed action items
 const completedActionItems = (actionItems: any[]) => {
 	return actionItems.filter(item => item.completed).length
+}
+
+// Get action items completion status
+const getActionItemsStatus = (actionItems: any[]) => {
+	if (!actionItems || actionItems.length === 0) return 'none'
+
+	const completed = completedActionItems(actionItems)
+	const total = actionItems.length
+
+	if (completed === 0) return 'none'
+	if (completed === total) return 'all'
+	return 'some'
+}
+
+// Get icon and color for action items status
+const getActionItemsIcon = (actionItems: any[]) => {
+	const status = getActionItemsStatus(actionItems)
+
+	switch (status) {
+		case 'none':
+			return { icon: 'i-heroicons-x-circle', color: 'text-neutral' }
+		case 'some':
+			return { icon: 'i-heroicons-clock', color: 'text-warning' }
+		case 'all':
+			return { icon: 'i-heroicons-check-circle', color: 'text-success' }
+		default:
+			return { icon: 'i-heroicons-check-circle', color: 'text-neutral' }
+	}
 }
 
 // Confirm delete (placeholder)
