@@ -20,7 +20,7 @@
 				</span>
 				<UButton size="xs" variant="ghost" color="error" icon="i-heroicons-trash" @click="removeItem(index)" aria-label="Remove action item" />
 			</div>
-			<div v-if="actionItems.length === 0" class="text-sm text-muted italic py-2">
+			<div v-if="actionItems.length === 0" class="text-xs text-dimmed italic py-2">
 				No action items yet. Add one above.
 			</div>
 		</div>

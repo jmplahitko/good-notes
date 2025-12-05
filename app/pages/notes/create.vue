@@ -3,7 +3,7 @@
 		<!-- Title and Meeting Time Row -->
 		<div class="flex gap-4 items-center">
 			<div class="flex-5">
-				<UInput v-model="pendingNote.title" variant="ghost" size="xl" label="Note Title" placeholder="Enter note title..." @update:model-value="updatePendingNote" />
+				<UInput class="font-bold" v-model="pendingNote.title" variant="ghost" size="xl" label="Note Title" placeholder="Enter note title..." @update:model-value="updatePendingNote" />
 			</div>
 			<div class="flex-1">
 				<UInput v-model="meetingTimeString" variant="ghost" type="time" label="Meeting Start Time" placeholder="HH:MM" @update:model-value="updateMeetingTime" />
