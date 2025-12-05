@@ -39,6 +39,10 @@
 
 <script setup lang="ts">
 import type { Note } from '../../../model/Note'
+import { useNotesStore } from '../../composables/stores/useNotesStore'
+
+// Store instance
+const notesStore = useNotesStore()
 
 // Pending note state (exists in memory before save)
 const pendingNote = ref<Partial<Note>>({
@@ -84,14 +88,17 @@ const updatePendingNote = () => {
 const saveNote = async () => {
 	if (!canSave.value) return
 
-	// TODO: Call store action to save note
-	// await notesStore.createNote(pendingNote.value)
+	try {
+		// Call store action to save note (backend validates and returns updated data)
+		const savedNote = await notesStore.createNote(pendingNote.value)
 
-	// For now, just log
-	console.log('Saving note:', pendingNote.value)
-
-	// Navigate back or to note detail page
-	// await navigateTo(`/notes/${noteId}`)
+		// Navigate to the created note
+		await navigateTo(`/notes/${savedNote.id}`)
+	} catch (error) {
+		// Error is handled by the store and displayed via reactive error state
+		console.error('Failed to save note:', error)
+		// TODO: Show user-friendly error message (toast notification, etc.)
+	}
 }
 
 // Cancel
