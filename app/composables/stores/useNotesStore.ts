@@ -16,7 +16,7 @@ export const useNotesStore = () => {
 	} = useNotesApi()
 
 	// Actions
-	const createNote = async (noteData: Partial<Note>): Promise<Note> => {
+	const create = async (noteData: Partial<Note>): Promise<Note> => {
 		loading.value = true
 		error.value = null
 
@@ -37,7 +37,7 @@ export const useNotesStore = () => {
 		}
 	}
 
-	const updateNote = async (id: string, noteData: Partial<Note>): Promise<Note> => {
+	const update = async (id: string, noteData: Partial<Note>): Promise<Note> => {
 		loading.value = true
 		error.value = null
 
@@ -72,7 +72,7 @@ export const useNotesStore = () => {
 		}
 	}
 
-	const fetchNoteById = async (id: string): Promise<Note> => {
+	const get = async (id: string): Promise<Note> => {
 		loading.value = true
 		error.value = null
 
@@ -94,7 +94,7 @@ export const useNotesStore = () => {
 		}
 	}
 
-	const fetchNotes = async (): Promise<Note[]> => {
+	const search = async (): Promise<Note[]> => {
 		loading.value = true
 		error.value = null
 
@@ -112,7 +112,7 @@ export const useNotesStore = () => {
 		}
 	}
 
-	const deleteNoteById = async (id: string): Promise<void> => {
+	const del = async (id: string): Promise<void> => {
 		loading.value = true
 		error.value = null
 
@@ -146,11 +146,11 @@ export const useNotesStore = () => {
 		error: readonly(error),
 
 		// Actions
-		createNote,
-		updateNote,
-		fetchNoteById,
-		fetchNotes,
-		deleteNoteById,
+		create,
+		update,
+		get,
+		search,
+		del,
 		clearError
 	}
 }

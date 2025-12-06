@@ -129,7 +129,7 @@ const saveNote = async () => {
 
 	try {
 		// Call store action to update note
-		await notesStore.updateNote(note.value.id, {
+		await notesStore.update(note.value.id, {
 			title: note.value.title,
 			content: note.value.content,
 			actionItems: note.value.actionItems,

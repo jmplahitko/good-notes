@@ -90,7 +90,7 @@ const saveNote = async () => {
 
 	try {
 		// Call store action to save note (backend validates and returns updated data)
-		const savedNote = await notesStore.createNote(pendingNote.value)
+		const savedNote = await notesStore.create(pendingNote.value)
 
 		// Navigate to the created note
 		await navigateTo(`/notes/${savedNote.id}`)
