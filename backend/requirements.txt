@@ -14,6 +14,7 @@ markdown==3.7
 # File utilities
 python-slugify==8.0.4
 PyYAML==6.0.2
+markdownify==1.2.2
 
 # Elasticsearch (for future search functionality)
 elasticsearch==8.17.0

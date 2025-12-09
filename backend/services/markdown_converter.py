@@ -1,6 +1,95 @@
+import re
 from datetime import datetime
 from typing import Any, Dict, List, Optional
 import frontmatter
+from markdownify import markdownify as md
+import markdown
+
+# Regex to detect HTML tags
+HTML_TAG_PATTERN = re.compile(r'<[a-zA-Z][^>]*>')
+
+
+def is_html_content(content: str) -> bool:
+    """
+    Check if content appears to be HTML rather than markdown.
+    
+    Args:
+        content: String to check
+        
+    Returns:
+        True if content contains HTML tags
+    """
+    if not content:
+        return False
+    
+    return bool(HTML_TAG_PATTERN.search(content))
+
+
+def markdown_to_html(md_content: str) -> str:
+    """
+    Convert Markdown content to HTML for TipTap editor.
+    Skips conversion if content is already HTML.
+    
+    Args:
+        md_content: Markdown formatted string (or already HTML)
+        
+    Returns:
+        HTML string for TipTap
+    """
+    if not md_content:
+        return ""
+    
+    # If content is already HTML, return as-is
+    if is_html_content(md_content):
+        return md_content
+    
+    # Convert markdown to HTML
+    html = markdown.markdown(md_content, extensions=['extra'])
+    return html
+
+
+def html_to_markdown(html_content: str) -> str:
+    """
+    Convert HTML content to Markdown.
+    
+    Args:
+        html_content: HTML string from TipTap editor
+        
+    Returns:
+        Markdown formatted string
+    """
+    if not html_content:
+        return ""
+    
+    # Check if content looks like HTML (has tags)
+    if '<' not in html_content:
+        return html_content
+    
+    # Convert HTML to markdown
+    # heading_style="ATX" uses # for headings
+    # bullets="-" uses - for unordered lists
+    # strip=['a'] would strip anchor tags (keeping text)
+    markdown_content = md(
+        html_content,
+        heading_style="ATX",
+        bullets="-",
+        strip=['script', 'style'],
+    )
+    
+    # Clean up extra whitespace
+    lines = markdown_content.split('\n')
+    cleaned_lines = []
+    prev_empty = False
+    
+    for line in lines:
+        is_empty = line.strip() == ''
+        # Avoid multiple consecutive empty lines
+        if is_empty and prev_empty:
+            continue
+        cleaned_lines.append(line.rstrip())
+        prev_empty = is_empty
+    
+    return '\n'.join(cleaned_lines).strip()
 
 
 def note_to_markdown(
@@ -65,9 +154,10 @@ def note_to_markdown(
             content_parts.append(f"- {attendee}")
         content_parts.append("")  # Empty line after attendees
     
-    # Main content
+    # Main content - convert HTML to markdown if needed
     if content:
-        content_parts.append(content)
+        markdown_body = html_to_markdown(content)
+        content_parts.append(markdown_body)
     
     # Create the markdown document
     markdown_content = "\n".join(content_parts)
@@ -161,11 +251,14 @@ def markdown_to_note(markdown_text: str) -> Dict[str, Any]:
     
     body = "\n".join(body_lines)
     
+    # Convert markdown body to HTML for TipTap editor
+    html_content = markdown_to_html(body) if body else ""
+    
     # Build the result
     result: Dict[str, Any] = {
         "id": metadata.get("id", ""),
         "title": title,
-        "content": body,
+        "content": html_content,
         "attendees": attendees if attendees else None,
     }
     
