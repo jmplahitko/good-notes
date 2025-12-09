@@ -101,8 +101,8 @@ const saveNote = async () => {
 		// Call store action to save note (backend validates and returns updated data)
 		const savedNote = await notesStore.create(pendingNote.value)
 
-		// Navigate to the created note
-		await navigateTo(`/notes/${savedNote.id}`)
+		// Navigate to the created note with edit mode enabled
+		await navigateTo(`/notes/${savedNote.id}?edit=true`)
 	} catch (error) {
 		// Error is handled by the store and displayed via reactive error state
 		console.error('Failed to save note:', error)

@@ -13,9 +13,12 @@
 					<h2 class="text-lg font-semibold">
 						{{ searchQuery ? `${filteredNotes.length} result${filteredNotes.length !== 1 ? 's' : ''} for "${searchQuery}"` : 'All Notes' }}
 					</h2>
-					<UButton to="/notes/create" icon="i-heroicons-plus">
-						New Note
-					</UButton>
+					<div class="flex items-center gap-2">
+						<UButton to="/notes/create" icon="i-heroicons-plus">
+							New Note
+						</UButton>
+						<UButton icon="i-heroicons-arrow-path" variant="outline" :loading="notesStore.loading.value" @click="loadNotes"></UButton>
+					</div>
 				</div>
 
 				<!-- Loading State -->
@@ -108,7 +111,7 @@ const searchQuery = ref('')
 // Filtered notes based on search query
 const filteredNotes = computed(() => {
 	const allNotes = notesStore.notes.value
-	
+
 	if (!searchQuery.value.trim()) {
 		return allNotes
 	}
@@ -166,12 +169,12 @@ const highlightText = (text: string, searchTerm: string) => {
 }
 
 // Count completed action items
-const completedActionItems = (actionItems: any[]) => {
+const completedActionItems = (actionItems: readonly any[]) => {
 	return actionItems.filter(item => item.completed).length
 }
 
 // Get action items completion status
-const getActionItemsStatus = (actionItems: any[]) => {
+const getActionItemsStatus = (actionItems: readonly any[]) => {
 	if (!actionItems || actionItems.length === 0) return 'none'
 
 	const completed = completedActionItems(actionItems)
@@ -183,7 +186,7 @@ const getActionItemsStatus = (actionItems: any[]) => {
 }
 
 // Get icon and color for action items status
-const getActionItemsIcon = (actionItems: any[]) => {
+const getActionItemsIcon = (actionItems: readonly any[]) => {
 	const status = getActionItemsStatus(actionItems)
 
 	switch (status) {
