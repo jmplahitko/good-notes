@@ -3,7 +3,7 @@
 		<!-- Title and Meeting Time Row -->
 		<div class="flex gap-4 items-center">
 			<div class="flex-5">
-				<UInput class="font-bold" v-model="pendingNote.title" variant="ghost" size="xl" label="Note Title" placeholder="Enter note title..." @update:model-value="updatePendingNote" />
+				<UInput ref="titleInput" class="font-bold" v-model="pendingNote.title" variant="ghost" size="xl" label="Note Title" placeholder="Enter note title..." @update:model-value="updatePendingNote" />
 			</div>
 			<div class="flex-1">
 				<UInput v-model="meetingTimeString" variant="ghost" type="time" label="Meeting Start Time" placeholder="HH:MM" @update:model-value="updateMeetingTime" />
@@ -43,6 +43,17 @@ import { useNotesStore } from '../../composables/stores/useNotesStore'
 
 // Store instance
 const notesStore = useNotesStore()
+
+// Template ref for title input
+const titleInput = ref<{ $el: HTMLElement } | null>(null)
+
+// Focus title input on mount
+onMounted(() => {
+	nextTick(() => {
+		const input = titleInput.value?.$el?.querySelector('input')
+		input?.focus()
+	})
+})
 
 // Get current time as HH:MM string
 const getCurrentTimeString = () => {
