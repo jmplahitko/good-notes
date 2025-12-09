@@ -1,0 +1,28 @@
+# FastAPI and server
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+python-multipart==0.0.20
+
+# Data validation
+pydantic==2.10.4
+pydantic-settings==2.7.0
+
+# Markdown processing
+python-frontmatter==1.1.0
+markdown==3.7
+
+# File utilities
+python-slugify==8.0.4
+PyYAML==6.0.2
+
+# Elasticsearch (for future search functionality)
+elasticsearch==8.17.0
+
+# Date/time utilities
+python-dateutil==2.9.0.post0
+
+# Debugging
+debugpy==1.8.17
+
+# CORS handling is built into FastAPI
+

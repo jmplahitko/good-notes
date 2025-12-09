@@ -51,9 +51,8 @@ definePageMeta({
 
 // Store instance
 const notesStore = useNotesStore()
-
-// Local copy of note for editing (breaks reference from store)
-const note = ref<Note | null>(null)
+// Local copy of note for editing (deep copy breaks readonly reference from store)
+const note = ref<Note | null>(JSON.parse(JSON.stringify(notesStore.currentNote.value)))
 
 // Meeting time as string for time input
 const meetingTimeString = ref('')
@@ -151,6 +150,19 @@ const cancel = () => {
 	navigateTo('/notes')
 }
 
+
+// Initialize meeting time string from note
+const initializeMeetingTime = () => {
+	if (note.value?.meetingStartTime) {
+		const date = new Date(note.value.meetingStartTime)
+		const hours = date.getHours().toString().padStart(2, '0')
+		const minutes = date.getMinutes().toString().padStart(2, '0')
+		meetingTimeString.value = `${hours}:${minutes}`
+	} else {
+		meetingTimeString.value = ''
+	}
+}
+
 // Revert changes back to original note
 const revertChanges = () => {
 	if (notesStore.currentNote) {
@@ -167,18 +179,6 @@ watchEffect(() => {
 		initializeMeetingTime()
 	}
 })
-
-// Initialize meeting time string from note
-const initializeMeetingTime = () => {
-	if (note.value?.meetingStartTime) {
-		const date = new Date(note.value.meetingStartTime)
-		const hours = date.getHours().toString().padStart(2, '0')
-		const minutes = date.getMinutes().toString().padStart(2, '0')
-		meetingTimeString.value = `${hours}:${minutes}`
-	} else {
-		meetingTimeString.value = ''
-	}
-}
 
 useHead({
 	title: 'Edit Note'

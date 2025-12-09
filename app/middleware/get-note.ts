@@ -2,7 +2,7 @@ import { useNotesStore } from '../composables/stores/useNotesStore'
 
 export default defineNuxtRouteMiddleware(async (to) => {
 	// Get note ID from route params
-	const noteId = to.params.id as string
+	const noteId = to.params.id as string;
 
 	if (!noteId) {
 		throw createError({
@@ -14,7 +14,7 @@ export default defineNuxtRouteMiddleware(async (to) => {
 	try {
 		// Fetch note data using the store
 		const notesStore = useNotesStore()
-		await notesStore.fetchNoteById(noteId)
+		await notesStore.get(noteId)
 
 		// Note data is now available in the store's reactive state
 		// Page component can access it via notesStore.currentNote
