@@ -44,16 +44,25 @@ import { useNotesStore } from '../../composables/stores/useNotesStore'
 // Store instance
 const notesStore = useNotesStore()
 
+// Get current time as HH:MM string
+const getCurrentTimeString = () => {
+	const now = new Date()
+	const hours = now.getHours().toString().padStart(2, '0')
+	const minutes = now.getMinutes().toString().padStart(2, '0')
+	return `${hours}:${minutes}`
+}
+
+// Meeting time as string for time input (default to now)
+const meetingTimeString = ref(getCurrentTimeString())
+
 // Pending note state (exists in memory before save)
 const pendingNote = ref<Partial<Note>>({
 	title: '',
 	content: '',
 	actionItems: [],
-	attendees: []
+	attendees: [],
+	meetingStartTime: new Date()
 })
-
-// Meeting time as string for time input
-const meetingTimeString = ref('')
 
 // Computed to check if note can be saved
 const canSave = computed(() => {

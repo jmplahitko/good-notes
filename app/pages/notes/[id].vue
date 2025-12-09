@@ -51,8 +51,9 @@ definePageMeta({
 
 // Store instance
 const notesStore = useNotesStore()
+
 // Local copy of note for editing (deep copy breaks readonly reference from store)
-const note = ref<Note | null>(JSON.parse(JSON.stringify(notesStore.currentNote.value)))
+const note = ref<Note | null>(null)
 
 // Meeting time as string for time input
 const meetingTimeString = ref('')
@@ -165,17 +166,17 @@ const initializeMeetingTime = () => {
 
 // Revert changes back to original note
 const revertChanges = () => {
-	if (notesStore.currentNote) {
-		note.value = JSON.parse(JSON.stringify(notesStore.currentNote))
+	if (notesStore.currentNote.value) {
+		note.value = JSON.parse(JSON.stringify(notesStore.currentNote.value))
 		initializeMeetingTime()
 	}
 }
 
 // Initialize local note copy when store's currentNote loads
 watchEffect(() => {
-	if (notesStore.currentNote && !note.value) {
+	if (notesStore.currentNote.value && !note.value) {
 		// Create deep copy to break reference from store
-		note.value = JSON.parse(JSON.stringify(notesStore.currentNote))
+		note.value = JSON.parse(JSON.stringify(notesStore.currentNote.value))
 		initializeMeetingTime()
 	}
 })
