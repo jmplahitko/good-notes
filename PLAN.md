@@ -132,10 +132,16 @@ Transform the existing Nuxt starter template into an Electron desktop applicatio
 
 3. **Elasticsearch Integration (Python)**
    - Install and configure Elasticsearch Python client
-   - Create index mappings for notes (from markdown files) and action items (from JSON file)
+   - Create index mappings for notes (from markdown files) and action items (from YAML file)
    - Implement indexing on note create/update (index markdown content)
-   - Implement indexing on action item create/update (index from JSON file)
+   - Implement indexing on action item create/update (index from YAML file)
    - Create search endpoint with query building
+   - **Search Strategy**: The frontend `notesStore.search(query?)` action currently fetches all notes from `GET /api/notes` and filters locally. When Elasticsearch is ready:
+     1. Update `GET /api/notes` to accept an optional `?q=` query parameter
+     2. Backend checks if Elasticsearch is enabled in settings
+     3. If ES enabled and query provided: use Elasticsearch to search and return matching notes
+     4. If ES disabled or no query: return all notes (current behavior)
+     5. Frontend code remains unchanged - it just passes the query to the same `search()` action
 
 4. **Python API Endpoints**
    - Implement note CRUD endpoints (GET, POST, PUT, DELETE):
@@ -282,14 +288,14 @@ Transform the existing Nuxt starter template into an Electron desktop applicatio
 
 ### Storage Format
 - **Notes**: Saved as markdown files (.md) in date-organized directories
-  - Directory structure: `notes/YYYYMMDD/` (based on createdAt date)
+  - Directory structure: `~/Documents/GoodNotes/notes/YYYYMMDD/` (based on createdAt date)
   - Filename: slugified title + optional meeting start time (HHMM format) + `.md` extension
   - `note.title` → h1 heading
   - `note.attendees` → optional "Attendees" h2 section (if present, placed after title and before content)
   - `note.content` → converted to markdown format
   - File metadata added to .md file using frontmatter
   - Notes exist in pending state (memory/UI) before first save, createdAt is set when note is saved
-- **Action Items**: Saved in a single JSON file
-- **Settings**: Saved in JSON format
-- **File Indexes**: Saved in JSON format (for referencing entities)
+- **Action Items**: Saved in `~/Documents/GoodNotes/action_items.yaml`
+- **Settings**: Saved in `~/Documents/GoodNotes/settings.yaml`
+- **Notes Index**: Saved in `~/Documents/GoodNotes/notes_index.yaml` (ID → file path mapping for fast lookup without scanning all files)
 

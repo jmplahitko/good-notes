@@ -4,8 +4,7 @@
 
 			<!-- Search Section -->
 			<div class="max-w-2xl mx-auto">
-				<UInput v-model="searchQuery" variant="subtle" size="lg" label="Search Notes" placeholder="Search by title, content, or attendees..." icon="i-heroicons-magnifying-glass"
-					@update:model-value="performSearch" />
+				<UInput v-model="searchQuery" variant="subtle" size="lg" label="Search Notes" placeholder="Search by title, content, or attendees..." icon="i-heroicons-magnifying-glass" />
 			</div>
 
 			<!-- Results Section -->
@@ -19,8 +18,24 @@
 					</UButton>
 				</div>
 
+				<!-- Loading State -->
+				<div v-if="notesStore.loading.value" class="text-center py-12">
+					<UIcon name="i-heroicons-arrow-path" class="mx-auto h-8 w-8 animate-spin text-primary" />
+					<p class="mt-2 text-muted">Loading notes...</p>
+				</div>
+
+				<!-- Error State -->
+				<div v-else-if="notesStore.error.value" class="text-center py-12">
+					<UIcon name="i-heroicons-exclamation-triangle" class="mx-auto h-16 w-16 text-error mb-4" />
+					<h3 class="text-xl font-medium mb-2">Failed to load notes</h3>
+					<p class="text-muted mb-4">{{ notesStore.error.value }}</p>
+					<UButton @click="loadNotes" icon="i-heroicons-arrow-path">
+						Retry
+					</UButton>
+				</div>
+
 				<!-- Search Results (Google-style) -->
-				<div class="space-y-6">
+				<div v-else class="space-y-6">
 					<div v-for="note in filteredNotes" :key="note.id" class="p-6 hover:shadow-sm transition-shadow">
 						<!-- Title and Date -->
 						<div class="flex items-start justify-between mb-2">
@@ -37,7 +52,7 @@
 
 						<!-- Content Preview -->
 						<div class="text-sm text-muted mb-3 leading-relaxed">
-							<span v-html="highlightText(note.content, searchQuery)"></span>
+							<span v-html="highlightText(truncateContent(note.content), searchQuery)"></span>
 						</div>
 
 						<!-- Metadata -->
@@ -61,7 +76,7 @@
 				</div>
 
 				<!-- Empty State -->
-				<div v-if="filteredNotes.length === 0" class="text-center py-12">
+				<div v-if="!notesStore.loading.value && !notesStore.error.value && filteredNotes.length === 0" class="text-center py-12">
 					<div class="text-muted">
 						<UIcon name="i-heroicons-document-text" class="mx-auto h-16 w-16 mb-4 opacity-50" />
 						<h3 class="text-xl font-medium mb-2">
@@ -82,99 +97,43 @@
 
 <script setup lang="ts">
 import type { Note } from '../../../model/Note'
+import { useNotesStore } from '../../composables/stores/useNotesStore'
 
-// Mock notes data
-const mockNotes: Note[] = [
-	{
-		id: 'note-1',
-		title: 'Team Standup Meeting',
-		content: 'Discussed project progress and upcoming deadlines. Key points: API integration is on track, UI improvements needed for mobile responsiveness.',
-		createdAt: new Date('2024-12-01T09:00:00'),
-		updatedAt: new Date('2024-12-01T09:30:00'),
-		meetingStartTime: new Date('2024-12-01T09:00:00'),
-		attendees: ['Alice Johnson', 'Bob Smith', 'Carol Davis', 'David Wilson'],
-		actionItems: [
-			{ title: 'Fix mobile responsiveness', completed: false },
-			{ title: 'Update API documentation', completed: false },
-			{ title: 'Review pull requests', completed: false }
-		]
-	},
-	{
-		id: 'note-2',
-		title: 'Client Presentation Prep',
-		content: 'Prepared slides for quarterly business review. Focus on Q4 achievements and Q1 roadmap. Client expressed interest in expanded features.',
-		createdAt: new Date('2024-11-28T14:00:00'),
-		updatedAt: new Date('2024-11-28T16:00:00'),
-		meetingStartTime: new Date('2024-11-28T14:30:00'),
-		attendees: ['Alice Johnson', 'Eve Martinez'],
-		actionItems: [
-			{ title: 'Create presentation slides', completed: true },
-			{ title: 'Gather Q4 metrics', completed: true },
-			{ title: 'Schedule follow-up meeting', completed: true }
-		]
-	},
-	{
-		id: 'note-3',
-		title: 'Code Review Session',
-		content: 'Reviewed recent code changes for the authentication module. Identified several security improvements and performance optimizations.',
-		createdAt: new Date('2024-11-25T11:00:00'),
-		updatedAt: new Date('2024-11-25T12:30:00'),
-		meetingStartTime: new Date('2024-11-25T11:15:00'),
-		attendees: ['Bob Smith', 'David Wilson', 'Frank Garcia'],
-		actionItems: [
-			{ title: 'Implement security fixes', completed: true },
-			{ title: 'Add performance optimizations', completed: false },
-			{ title: 'Update code documentation', completed: true }
-		]
-	},
-	{
-		id: 'note-4',
-		title: 'Product Planning Meeting',
-		content: 'Brainstormed new features for Q1. Prioritized user experience improvements and mobile app enhancements.',
-		createdAt: new Date('2024-11-20T10:00:00'),
-		updatedAt: new Date('2024-11-20T11:30:00'),
-		meetingStartTime: new Date('2024-11-20T10:30:00'),
-		attendees: ['Alice Johnson', 'Carol Davis', 'Eve Martinez', 'Grace Lee'],
-		actionItems: [
-			{ title: 'Create feature roadmap', completed: true },
-			{ title: 'Design mobile improvements', completed: false },
-			{ title: 'User research interviews', completed: false }
-		]
-	},
-	{
-		id: 'note-5',
-		title: 'Bug Triage',
-		content: 'Reviewed reported bugs and prioritized fixes. Critical security issue identified and assigned to development team.',
-		createdAt: new Date('2024-11-18T15:00:00'),
-		updatedAt: new Date('2024-11-18T16:00:00'),
-		meetingStartTime: new Date('2024-11-18T15:45:00'),
-		attendees: ['Bob Smith', 'David Wilson'],
-		actionItems: [
-			{ title: 'Fix critical security bug', completed: true },
-			{ title: 'Update bug tracking system', completed: true },
-			{ title: 'Review remaining bug reports', completed: true }
-		]
-	}
-]
+// Store instance
+const notesStore = useNotesStore()
 
 // Reactive state
 const searchQuery = ref('')
-const filteredNotes = ref<Note[]>(mockNotes)
 
-// Search functionality
-const performSearch = () => {
+// Filtered notes based on search query
+const filteredNotes = computed(() => {
+	const allNotes = notesStore.notes.value
+	
 	if (!searchQuery.value.trim()) {
-		filteredNotes.value = mockNotes
-		return
+		return allNotes
 	}
 
 	const query = searchQuery.value.toLowerCase()
-	filteredNotes.value = mockNotes.filter(note =>
+	return allNotes.filter(note =>
 		note.title.toLowerCase().includes(query) ||
 		note.content.toLowerCase().includes(query) ||
 		note.attendees?.some(attendee => attendee.toLowerCase().includes(query))
 	)
+})
+
+// Load notes from backend
+const loadNotes = async () => {
+	try {
+		await notesStore.search()
+	} catch (err) {
+		console.error('Failed to load notes:', err)
+	}
 }
+
+// Load notes on mount
+onMounted(() => {
+	loadNotes()
+})
 
 // Format date for display
 const formatDate = (date: Date) => {
@@ -182,14 +141,20 @@ const formatDate = (date: Date) => {
 		year: 'numeric',
 		month: 'short',
 		day: 'numeric'
-	}).format(date)
+	}).format(new Date(date))
 }
 
 const formatTime = (date: Date) => {
 	return new Intl.DateTimeFormat('en-US', {
 		hour: 'numeric',
 		minute: '2-digit'
-	}).format(date)
+	}).format(new Date(date))
+}
+
+// Truncate content for preview
+const truncateContent = (content: string, maxLength = 200) => {
+	if (content.length <= maxLength) return content
+	return content.substring(0, maxLength) + '...'
 }
 
 // Highlight search terms in text
@@ -231,14 +196,6 @@ const getActionItemsIcon = (actionItems: any[]) => {
 		default:
 			return { icon: 'i-heroicons-check-circle', color: 'text-neutral' }
 	}
-}
-
-// Confirm delete (placeholder)
-const confirmDelete = (note: Note) => {
-	// TODO: Implement delete functionality
-	console.log('Delete note:', note.id)
-	// For now, just remove from local array
-	filteredNotes.value = filteredNotes.value.filter(n => n.id !== note.id)
 }
 
 useHead({
