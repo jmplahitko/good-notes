@@ -105,7 +105,7 @@ export const useNotesApi = () => {
 
 		if (noteData.title !== undefined) apiPayload.title = noteData.title
 		if (noteData.attendees !== undefined) apiPayload.attendees = noteData.attendees
-		if (noteData.meetingStartTime !== undefined) apiPayload.meeting_start_time = noteData.meetingStartTime?.toISOString()
+		if (noteData.meetingStartTime !== undefined) apiPayload.meeting_start_time = new Date(noteData.meetingStartTime)?.toISOString()
 		if (noteData.content !== undefined) apiPayload.content = noteData.content
 		if (noteData.actionItems !== undefined) apiPayload.action_items = noteData.actionItems.map(ai => ({ title: ai.title }))
 
