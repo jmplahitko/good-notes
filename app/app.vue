@@ -1,4 +1,4 @@
-<script setup>
+<script setup lang="ts">
 // SEO and app configuration
 useHead({
 	meta: [
@@ -30,6 +30,26 @@ useSeoMeta({
 
 // Components
 import CreateActionItemModal from './components/CreateActionItemModal.vue'
+
+// Global navigation
+const router = useRouter()
+
+// Global hotkey handler for Cmd+N (Mac) or Ctrl+N (Windows/Linux)
+const handleGlobalKeydown = (event: KeyboardEvent) => {
+	if ((event.metaKey || event.ctrlKey) && event.key === '.') {
+		event.preventDefault() // Prevent default browser behavior
+		router.push('/notes/create')
+	}
+}
+
+// Add global keyboard event listener
+onMounted(() => {
+	document.addEventListener('keydown', handleGlobalKeydown)
+})
+
+onUnmounted(() => {
+	document.removeEventListener('keydown', handleGlobalKeydown)
+})
 
 </script>
 
