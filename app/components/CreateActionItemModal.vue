@@ -42,6 +42,24 @@ const formData = ref({
 
 const shouldMakeAnotherActionItem = ref(false);
 
+// Hotkey handler for Cmd+A (Mac) or Ctrl+A (Windows/Linux)
+// Opens the create action item modal
+const handleKeydown = (event: KeyboardEvent) => {
+	if ((event.metaKey || event.ctrlKey) && event.key === 'a') {
+		event.preventDefault() // Prevent default "select all" behavior
+		isOpen.value = true
+	}
+}
+
+// Add/remove keyboard event listener
+onMounted(() => {
+	document.addEventListener('keydown', handleKeydown)
+})
+
+onUnmounted(() => {
+	document.removeEventListener('keydown', handleKeydown)
+})
+
 // Create action item
 const createActionItem = () => {
 	if (!formData.value.title.trim()) return
