@@ -156,6 +156,8 @@ def note_to_markdown(
     
     # Main content - convert HTML to markdown if needed
     if content:
+        content_parts.append("## Notes")
+        content_parts.append("")
         markdown_body = html_to_markdown(content)
         content_parts.append(markdown_body)
     
@@ -234,6 +236,11 @@ def markdown_to_note(markdown_text: str) -> Dict[str, Any]:
             else:
                 # End of attendees section
                 in_attendees_section = False
+        
+        # Check for Notes section
+        if stripped.lower() == "## notes":
+            i += 1
+            continue
         
         # Collect body content (after title and optional attendees)
         if title_found:

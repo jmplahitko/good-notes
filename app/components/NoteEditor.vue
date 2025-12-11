@@ -10,8 +10,6 @@
 				<UButton size="xs" variant="ghost" color="neutral" :class="{ 'bg-primary/20': editor?.isActive('strike') }" @click="editor?.chain().focus().toggleStrike().run()" :icon="'i-heroicons-bars-3'"
 					aria-label="Strikethrough" />
 				<div class="w-px h-4 bg-accented mx-1" />
-				<UButton size="xs" variant="ghost" color="neutral" :class="{ 'bg-primary/20': editor?.isActive('heading', { level: 2 }) }" @click="editor?.chain().focus().toggleHeading({ level: 2 }).run()"
-					:icon="'i-heroicons-h2'" aria-label="Heading 2" />
 				<UButton size="xs" variant="ghost" color="neutral" :class="{ 'bg-primary/20': editor?.isActive('heading', { level: 3 }) }" @click="editor?.chain().focus().toggleHeading({ level: 3 }).run()"
 					:icon="'i-heroicons-h3'" aria-label="Heading 3" />
 				<div class="w-px h-4 bg-accented mx-1" />
