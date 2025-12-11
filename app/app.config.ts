@@ -47,6 +47,13 @@ export default defineAppConfig({
 					ghost: 'bg-transparent text-default hover:bg-elevated/25 focus:bg-elevated/25 disabled:bg-default'
 				}
 			}
+		},
+		modal: {
+			slots: {
+				header: 'flex items-center gap-1.5 p-1 sm:px-1 min-h-1 border-none',
+				body: 'flex-1',
+				close: 'absolute top-1 end-1 text-dimmed'
+			},
 		}
 	}
 })

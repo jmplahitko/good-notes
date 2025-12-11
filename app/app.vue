@@ -1,4 +1,5 @@
 <script setup>
+// SEO and app configuration
 useHead({
 	meta: [
 		{ name: 'viewport', content: 'width=device-width, initial-scale=1' }
@@ -26,12 +27,17 @@ useSeoMeta({
 	ogDescription: description,
 	twitterCard: 'summary_large_image'
 })
+
+// Components
+import CreateActionItemModal from './components/CreateActionItemModal.vue'
+
 </script>
 
 <template>
 	<UApp>
 		<UHeader title="Good Notes">
 			<template #right>
+				<CreateActionItemModal />
 				<UButton to="/design-system" icon="i-heroicons-paint-brush" aria-label="Design System" color="neutral" variant="ghost" />
 			</template>
 		</UHeader>
