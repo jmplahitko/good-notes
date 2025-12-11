@@ -75,10 +75,20 @@
 
 <script setup lang="ts">
 import type { ActionItem } from '../../../model/ActionItem'
-import { useActionItems } from '../../composables/useActionItems'
+import { useActionItemsStore } from '../../composables/stores/useActionItemsStore'
 
-// Use the shared action items composable
-const { actionItems, addActionItem, updateActionItem, deleteActionItem: _deleteActionItem, toggleCompletion } = useActionItems()
+// Use the action items store
+const actionItemsStore = useActionItemsStore()
+const { actionItems, update, del, toggleCompletion, fetch } = actionItemsStore
+
+// Load action items on mount
+onMounted(async () => {
+	try {
+		await fetch()
+	} catch (error) {
+		console.error('Failed to load action items:', error)
+	}
+})
 
 // Reactive state
 const searchQuery = ref('')
@@ -154,8 +164,13 @@ const filteredActionItems = computed(() => {
 })
 
 // Toggle completion status
-const toggleCompletionLocal = (item: ActionItem) => {
-	toggleCompletion(item.id)
+const toggleCompletionLocal = async (item: ActionItem) => {
+	if (!item.id) return
+	try {
+		await toggleCompletion(item.id)
+	} catch (error) {
+		console.error('Failed to toggle completion:', error)
+	}
 }
 
 // Edit action item
@@ -170,41 +185,37 @@ const editActionItem = (item: ActionItem) => {
 }
 
 // Delete action item
-const deleteActionItem = (item: ActionItem) => {
+const deleteActionItem = async (item: ActionItem) => {
 	// In a real app, this would show a confirmation dialog
+	if (!item.id) return
 	if (confirm(`Delete action item "${item.title}"?`)) {
-		const index = mockActionItems.indexOf(item)
-		if (index > -1) {
-			mockActionItems.splice(index, 1)
+		try {
+			await del(item.id)
+		} catch (error) {
+			console.error('Failed to delete action item:', error)
 		}
-		// In a real app, this would call an API
-		console.log('Deleted action item:', item.id)
 	}
 }
 
 // Save action item (create or update)
-const saveActionItem = () => {
+const saveActionItem = async () => {
 	if (!formData.value.title.trim()) return
 
-	if (editingItem.value) {
-		// Update existing item
-		updateActionItem(editingItem.value.id, {
-			title: formData.value.title,
-			noteId: formData.value.noteId || undefined,
-			completed: formData.value.completed,
-			completedAt: formData.value.completed ? new Date() : null
-		})
-	} else {
-		// Create new item
-		addActionItem({
-			title: formData.value.title,
-			noteId: formData.value.noteId || undefined,
-			completed: formData.value.completed,
-			completedAt: formData.value.completed ? new Date() : null
-		})
-	}
+	try {
+		if (editingItem.value && editingItem.value.id) {
+			// Update existing item
+			await update(editingItem.value.id, {
+				title: formData.value.title,
+				completed: formData.value.completed
+			})
+		} else {
+			// Create new item - handled by modal now, not here
+		}
 
-	cancelEdit()
+		cancelEdit()
+	} catch (error) {
+		console.error('Failed to save action item:', error)
+	}
 }
 
 // Cancel edit/create

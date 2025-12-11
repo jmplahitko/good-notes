@@ -15,7 +15,7 @@
 						<UCheckbox v-model="shouldMakeAnotherActionItem" />
 						<span class="text-sm">Make another</span>
 					</div>
-					<UButton type="submit" :disabled="!formData.title.trim()">
+					<UButton type="submit" :disabled="!formData.title.trim()" :loading="loading">
 						Create Action Item
 					</UButton>
 				</div>
@@ -25,10 +25,10 @@
 </template>
 
 <script setup lang="ts">
-import { useActionItems } from '../composables/useActionItems'
+import { useActionItemsStore } from '../composables/stores/useActionItemsStore'
 
-// Get the action items composable
-const { addActionItem } = useActionItems()
+// Get the action items store
+const actionItemsStore = useActionItemsStore()
 
 const isOpen = ref(false);
 
@@ -41,6 +41,9 @@ const formData = ref({
 })
 
 const shouldMakeAnotherActionItem = ref(false);
+
+// Reactive state from store
+const { loading, error } = actionItemsStore
 
 // Hotkey handler for Cmd+A (Mac) or Ctrl+A (Windows/Linux)
 // Opens the create action item modal
@@ -61,25 +64,25 @@ onUnmounted(() => {
 })
 
 // Create action item
-const createActionItem = () => {
+const createActionItem = async () => {
 	if (!formData.value.title.trim()) return
 
-	// Add the action item using the composable
-	addActionItem({
-		title: formData.value.title,
-		noteId: formData.value.noteId || undefined,
-		completed: formData.value.completed,
-		completedAt: formData.value.completed ? new Date() : null
-	})
+	try {
+		await actionItemsStore.create({
+			title: formData.value.title,
+			noteId: formData.value.noteId || undefined
+		})
 
-	if (shouldMakeAnotherActionItem.value) {
-		reset()
-	} else {
-		isOpen.value = false;
+		if (shouldMakeAnotherActionItem.value) {
+			reset()
+		} else {
+			isOpen.value = false
+			reset()
+		}
+	} catch (error) {
+		console.error('Failed to create action item:', error)
+		// Error is handled by the store and can be displayed in the UI
 	}
-
-	// Reset form
-	reset()
 }
 
 // Reset form
